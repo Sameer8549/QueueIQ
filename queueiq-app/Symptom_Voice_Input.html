@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+        rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#152f4c",
+                        "accent-gold": "#d4af37",
+                        "accent-teal": "#0d9488",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#13191f",
+                    },
+                    fontFamily: {
+                        "display": ["Inter"]
+                    },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+    <title>QueueIQ - Symptom Voice Input</title>
+    <style>
+        body {
+            min-height: max(884px, 100dvh);
+        }
+    </style>
+</head>
+
+<body
+    class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 min-h-screen flex flex-col">
+    <header class="sticky top-0 z-10 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 p-4">
+        <div class="flex items-center justify-between max-w-md mx-auto w-full">
+            <button class="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full transition-colors">
+                <span class="material-symbols-outlined block">arrow_back</span>
+            </button>
+            <h1 class="text-lg font-bold tracking-tight">Symptom Input</h1>
+            <div class="w-10"></div>
+        </div>
+    </header>
+    <main class="flex-1 flex flex-col items-center px-6 py-8 max-w-md mx-auto w-full">
+        <div class="mb-8">
+            <div
+                class="inline-flex items-center gap-2 bg-primary/10 dark:bg-primary/30 px-4 py-2 rounded-full border border-primary/20">
+                <span class="text-sm font-medium">🇮🇳 Kannada</span>
+                <span class="material-symbols-outlined text-sm">expand_more</span>
+            </div>
+        </div>
+        <div class="text-center mb-12">
+            <h2 class="text-2xl font-bold mb-2">Speak in your language</h2>
+            <p class="text-slate-500 dark:text-slate-400">Describe how you're feeling...</p>
+        </div>
+        <div class="relative flex items-center justify-center mb-12">
+            <div class="absolute w-40 h-40 rounded-full bg-accent-gold/20 scale-125"></div>
+            <div class="absolute w-32 h-32 rounded-full bg-accent-gold/40 scale-110"></div>
+            <button id="mic-btn" onclick="startRecording()"
+                class="relative z-10 w-24 h-24 rounded-full bg-primary flex items-center justify-center shadow-xl shadow-primary/30 transition-transform active:scale-95">
+                <span class="material-symbols-outlined text-white text-5xl">mic</span>
+            </button>
+        </div>
+        <div id="recording-bars"
+            class="flex items-end justify-center gap-1 h-12 mb-10 opacity-0 transition-opacity duration-300">
+            <div class="w-1 bg-accent-gold h-4 rounded-full animate-pulse"></div>
+            <div class="w-1 bg-accent-gold h-8 rounded-full animate-bounce"></div>
+            <div class="w-1 bg-accent-gold h-12 rounded-full animate-pulse"></div>
+            <div class="w-1 bg-accent-gold h-6 rounded-full animate-bounce"></div>
+            <div class="w-1 bg-accent-gold h-10 rounded-full animate-pulse"></div>
+            <div class="w-1 bg-accent-gold h-5 rounded-full animate-bounce"></div>
+            <div class="w-1 bg-accent-gold h-9 rounded-full animate-pulse"></div>
+        </div>
+        <div id="transcription-block"
+            class="hidden w-full bg-white dark:bg-slate-800 p-6 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm mb-8 transition-all duration-500">
+            <div class="flex items-center gap-2 mb-3">
+                <span class="material-symbols-outlined text-primary text-sm">transcribe</span>
+                <span class="text-xs font-semibold uppercase tracking-wider text-slate-500">Live Transcription</span>
+            </div>
+            <p class="text-lg font-medium leading-relaxed">"Fever and headache for 3 days"</p>
+        </div>
+        <div id="action-buttons" class="hidden w-full space-y-4 transition-all duration-500">
+            <button onclick="confirmSymptoms()"
+                class="w-full py-4 bg-accent-teal hover:bg-teal-700 text-white font-bold rounded-xl transition-colors shadow-lg shadow-teal-900/10 active:scale-[0.98]">
+                Yes, that's correct
+            </button>
+            <button onclick="resetRecording()"
+                class="w-full py-4 bg-transparent border-2 border-slate-300 dark:border-slate-600 font-bold rounded-xl hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors active:scale-[0.98]">
+                Record again
+            </button>
+        </div>
+        <div class="mt-10 w-full" id="manual-entry-section">
+            <div class="relative">
+                <textarea id="manual-symptoms" rows="3" placeholder="Or type your symptoms here..."
+                    class="w-full bg-slate-50 border-slate-200 dark:bg-slate-900/50 dark:border-slate-700 rounded-xl p-4 text-sm focus:ring-2 focus:ring-accent-gold/50 transition-shadow resize-none"></textarea>
+                <button onclick="submitManualSymptoms()"
+                    class="absolute bottom-3 right-3 bg-primary text-white p-2 rounded-lg hover:bg-primary/90 transition-colors">
+                    <span class="material-symbols-outlined text-sm">send</span>
+                </button>
+            </div>
+            <p id="manual-error" class="hidden text-xs text-red-500 font-medium mt-2 text-center">Please enter your
+                symptoms before submitting.</p>
+        </div>
+    </main>
+    <nav class="border-t border-primary/10 bg-white dark:bg-background-dark pb-6 pt-2 sticky bottom-0 z-50">
+        <div class="flex justify-around max-w-md mx-auto">
+            <a class="flex flex-col items-center gap-1 text-slate-400" href="index.html">
+                <span class="material-symbols-outlined">home</span>
+                <span class="text-[10px] font-bold uppercase">Home</span>
+            </a>
+            <a class="flex flex-col items-center gap-1 text-slate-400" href="Token_Registration_Welcome.html">
+                <span class="material-symbols-outlined">confirmation_number</span>
+                <span class="text-[10px] font-bold uppercase">Token</span>
+            </a>
+            <a class="flex flex-col items-center gap-1 text-slate-400" href="Your_Health_Brief.html">
+                <span class="material-symbols-outlined">lightbulb</span>
+                <span class="text-[10px] font-bold uppercase">Insights</span>
+            </a>
+            <a class="flex flex-col items-center gap-1 text-slate-400" href="WhatsApp_Integration.html">
+                <span class="material-symbols-outlined">chat</span>
+                <span class="text-[10px] font-bold uppercase">Support</span>
+            </a>
+        </div>
+    </nav>
+    <script>
+        const API = 'http://localhost:8000';
+
+        async function startRecording() {
+            const micBtn = document.getElementById('mic-btn');
+            const bars = document.getElementById('recording-bars');
+            const transBlock = document.getElementById('transcription-block');
+            const actionBtns = document.getElementById('action-buttons');
+
+            // Visual feedback for mic
+            micBtn.classList.add('bg-red-500');
+            micBtn.classList.remove('bg-primary');
+            bars.classList.remove('opacity-0');
+            bars.classList.add('opacity-100');
+
+            // Hide previous results
+            transBlock.classList.add('hidden');
+            actionBtns.classList.add('hidden');
+
+            // Wait for "recording" simulation
+            await new Promise(r => setTimeout(r, 2500));
+
+            // Stop recording visual
+            micBtn.classList.remove('bg-red-500');
+            micBtn.classList.add('bg-primary');
+            bars.classList.add('opacity-0');
+            bars.classList.remove('opacity-100');
+
+            // Call AI simulate-intake endpoint
+            const tokenId = localStorage.getItem('queueiq_token_id') || '1';
+            try {
+                const res = await fetch(`${API}/webhook/simulate-intake?token_id=${tokenId}`);
+                const data = await res.json();
+
+                // Store AI results
+                localStorage.setItem('queueiq_transcription', data.transcription);
+                localStorage.setItem('queueiq_chief_complaint', data.extraction.chief_complaint);
+                localStorage.setItem('queueiq_symptoms', JSON.stringify(data.extraction.symptoms));
+                localStorage.setItem('queueiq_severity', data.extraction.severity);
+                localStorage.setItem('queueiq_triage', JSON.stringify(data.triage));
+                localStorage.setItem('queueiq_health_brief', JSON.stringify(data.health_brief));
+
+                // Show transcription
+                const transText = transBlock.querySelector('p.text-lg');
+                if (transText) transText.textContent = `"${data.transcription}"`;
+
+                // If emergency detected, show warning
+                if (data.triage.is_emergency) {
+                    transBlock.insertAdjacentHTML('beforeend',
+                        `<div class="mt-3 p-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg flex items-center gap-2">
+                            <span class="material-symbols-outlined text-red-600 text-xl">emergency</span>
+                            <p class="text-sm font-semibold text-red-700 dark:text-red-300">⚠️ Emergency symptoms detected — staff has been alerted</p>
+                        </div>`);
+                }
+            } catch (e) {
+                console.error('AI API offline, using fallback', e);
+                const transText = transBlock.querySelector('p.text-lg');
+                if (transText) transText.textContent = '"I have been having fever and headache for 3 days, with body pains."';
+            }
+
+            transBlock.classList.remove('hidden');
+            setTimeout(() => { actionBtns.classList.remove('hidden'); }, 600);
+        }
+
+        function confirmSymptoms() {
+            window.location.href = 'Your_Health_Brief.html';
+        }
+
+        function resetRecording() {
+            document.getElementById('transcription-block').classList.add('hidden');
+            document.getElementById('action-buttons').classList.add('hidden');
+            // Remove any emergency warnings
+            document.querySelectorAll('#transcription-block .bg-red-50, #transcription-block .bg-red-900\\/20').forEach(el => el.remove());
+        }
+
+        async function submitManualSymptoms() {
+            const symptomText = document.getElementById('manual-symptoms').value.trim();
+            const errorText = document.getElementById('manual-error');
+
+            if (!symptomText) {
+                errorText.classList.remove('hidden');
+                return;
+            }
+            errorText.classList.add('hidden');
+
+            const transBlock = document.getElementById('transcription-block');
+            const actionBtns = document.getElementById('action-buttons');
+
+            // Show a loading UI state natively while processing
+            const submitBtn = document.querySelector('#manual-entry-section button');
+            submitBtn.innerHTML = '<span class="material-symbols-outlined text-sm animate-spin">refresh</span>';
+
+            // Call AI simulate-intake endpoint with manual text
+            const tokenId = localStorage.getItem('queueiq_token_id') || '1';
+            try {
+                // In a real app we'd POST the text, here we simulate by fetching
+                const res = await fetch(`${API}/webhook/simulate-intake?token_id=${tokenId}`);
+                const data = await res.json();
+
+                // Override transcription with their manual text
+                data.transcription = symptomText;
+
+                // Store AI results
+                localStorage.setItem('queueiq_transcription', data.transcription);
+                localStorage.setItem('queueiq_chief_complaint', data.extraction.chief_complaint);
+                localStorage.setItem('queueiq_symptoms', JSON.stringify(data.extraction.symptoms));
+                localStorage.setItem('queueiq_severity', data.extraction.severity);
+                localStorage.setItem('queueiq_triage', JSON.stringify(data.triage));
+                localStorage.setItem('queueiq_health_brief', JSON.stringify(data.health_brief));
+
+                // Show transcription block modified for manual entry
+                const transText = transBlock.querySelector('p.text-lg');
+                if (transText) transText.textContent = `"${data.transcription}"`;
+
+                transBlock.querySelector('.text-xs.font-semibold').textContent = "SYMPTOM ANALYSIS";
+
+                // If emergency detected, show warning
+                if (data.triage.is_emergency && !transBlock.querySelector('.bg-red-50')) {
+                    transBlock.insertAdjacentHTML('beforeend',
+                        `<div class="mt-3 p-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg flex items-center gap-2">
+                            <span class="material-symbols-outlined text-red-600 text-xl">emergency</span>
+                            <p class="text-sm font-semibold text-red-700 dark:text-red-300">⚠️ Emergency symptoms detected — staff has been alerted</p>
+                        </div>`);
+                }
+            } catch (e) {
+                console.error('AI API offline, using fallback', e);
+            }
+
+            submitBtn.innerHTML = '<span class="material-symbols-outlined text-sm">send</span>';
+
+            // Hide the manual section to show the confirmation
+            document.getElementById('manual-entry-section').classList.add('hidden');
+
+            transBlock.classList.remove('hidden');
+            setTimeout(() => { actionBtns.classList.remove('hidden'); }, 300);
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+        rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#152f4c",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#13191f",
+                    },
+                    fontFamily: {
+                        "display": ["Inter"]
+                    },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+    <title>QueueIQ Staff Dashboard</title>
+</head>
+
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100">
+    <div class="flex h-screen overflow-hidden">
+        <!-- Sidebar -->
+        <aside class="w-64 bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 flex flex-col shrink-0">
+            <div class="p-6 flex items-center gap-3">
+                <div class="size-10 bg-primary rounded-lg flex items-center justify-center text-white">
+                    <span class="material-symbols-outlined">queue</span>
+                </div>
+                <div>
+                    <h1 class="text-primary dark:text-white font-bold text-lg leading-none">QueueIQ</h1>
+                    <p class="text-xs text-slate-500 dark:text-slate-400">Staff Portal</p>
+                </div>
+            </div>
+            <nav class="flex-1 px-4 space-y-1 overflow-y-auto">
+                <a class="flex items-center gap-3 px-3 py-2 rounded-lg bg-primary text-white"
+                    href="Main_Dashboard.html">
+                    <span class="material-symbols-outlined">dashboard</span>
+                    <span class="text-sm font-medium">Dashboard</span>
+                </a>
+                <a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800"
+                    href="Patient_Symptom_Summaries.html">
+                    <span class="material-symbols-outlined">groups</span>
+                    <span class="text-sm font-medium">Triage Queue</span>
+                </a>
+                <a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800"
+                    href="Emergency_Alert_Panel.html">
+                    <span class="material-symbols-outlined">emergency</span>
+                    <span class="text-sm font-medium">Emergency</span>
+                </a>
+                <a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800"
+                    href="Analytics_Page.html">
+                    <span class="material-symbols-outlined">bar_chart</span>
+                    <span class="text-sm font-medium">Analytics</span>
+                </a>
+            </nav>
+            <div class="p-4 border-t border-slate-200 dark:border-slate-800">
+                <a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+                    href="index.html"
+                    onclick="if(!confirm('Are you sure you want to securely end your session?')) return false;">
+                    <span class="material-symbols-outlined text-red-500">logout</span>
+                    <span class="text-sm font-medium text-red-600 dark:text-red-400">Secure Logout</span>
+                </a>
+            </div>
+        </aside>
+        <!-- Main Content -->
+        <main class="flex-1 flex flex-col overflow-y-auto">
+            <!-- Header -->
+            <header
+                class="h-16 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 px-8 flex items-center justify-between sticky top-0 z-10">
+                <div class="flex items-center gap-3">
+                    <span class="material-symbols-outlined text-primary dark:text-slate-300">local_hospital</span>
+                    <h2 class="text-lg font-bold text-slate-900 dark:text-white">Wenlock District Hospital</h2>
+                </div>
+                <div class="flex items-center gap-6">
+                    <div class="relative max-w-xs hidden md:block">
+                        <span
+                            class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xl">search</span>
+                        <input
+                            class="bg-slate-100 dark:bg-slate-800 border-none rounded-lg pl-10 pr-4 py-2 text-sm w-64 focus:ring-2 focus:ring-primary"
+                            placeholder="Search patients..." type="text" />
+                    </div>
+                    <div class="flex items-center gap-4">
+                        <button
+                            class="relative p-2 text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg">
+                            <span class="material-symbols-outlined">notifications</span>
+                            <span
+                                class="absolute top-2 right-2 size-2 bg-red-500 rounded-full border-2 border-white dark:border-slate-900"></span>
+                        </button>
+                        <div class="flex items-center gap-3 pl-4 border-l border-slate-200 dark:border-slate-800">
+                            <div class="text-right hidden sm:block">
+                                <p class="text-sm font-semibold dark:text-white">Dr. Sarah Chen</p>
+                                <p class="text-xs text-slate-500 dark:text-slate-400">Chief Resident</p>
+                            </div>
+                            <div class="size-10 rounded-full bg-slate-200 bg-cover bg-center"
+                                data-alt="Staff member profile photo"
+                                style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCcUBUBJnFUutRmrohUPN-yXR23lRge5mGqRkbYofgKDTj1_PZJib2JfqkoO22TZsjvkt3w7oo3l6UM5imcYokqvuCAdJ8CNzJIRDspWs30C08wV2qIC8EFAwtEKYbYS5wmSkyxWJaVXg2JorlB1-MhDLJKlKNMDWe-pPH3pBWxy5OHQu-BjuJwAjB23rWfHEY_GHELYCt_H-YtgtNiueW8cAj-RhzXKH2MhvpNnhMjOuuwX3NgR2IlRQNNRj1Sd7Tfbfbv8z-vcQ');">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+            <!-- Dashboard Body -->
+            <div class="p-8 space-y-8">
+                <!-- Stats Row -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div
+                        class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
+                        <p class="text-slate-500 dark:text-slate-400 text-sm font-medium">Patients Today</p>
+                        <div class="flex items-end justify-between mt-2">
+                            <h3 id="stat-total" class="text-3xl font-bold dark:text-white">--</h3>
+                            <span class="text-green-500 text-sm font-medium flex items-center"><span
+                                    class="material-symbols-outlined text-xs">arrow_upward</span> 12%</span>
+                        </div>
+                    </div>
+                    <div
+                        class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
+                        <p class="text-slate-500 dark:text-slate-400 text-sm font-medium">Avg Wait Time</p>
+                        <div class="flex items-end justify-between mt-2">
+                            <h3 id="stat-wait" class="text-3xl font-bold dark:text-white">--</h3>
+                            <span class="text-red-500 text-sm font-medium flex items-center"><span
+                                    class="material-symbols-outlined text-xs">arrow_downward</span> 5m</span>
+                        </div>
+                    </div>
+                    <div
+                        class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm relative overflow-hidden">
+                        <div class="absolute top-0 right-0 p-4">
+                            <span class="flex size-3">
+                                <span
+                                    class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                                <span class="relative inline-flex rounded-full size-3 bg-red-500"></span>
+                            </span>
+                        </div>
+                        <p class="text-slate-500 dark:text-slate-400 text-sm font-medium">Emergency Alerts</p>
+                        <div class="flex items-end justify-between mt-2">
+                            <h3 id="stat-emergency" class="text-3xl font-bold text-red-600 dark:text-red-400">--</h3>
+                            <span class="material-symbols-outlined text-red-200 text-3xl">emergency</span>
+                        </div>
+                    </div>
+                    <div
+                        class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
+                        <p class="text-slate-500 dark:text-slate-400 text-sm font-medium">Satisfaction Score</p>
+                        <div class="flex items-end justify-between mt-2">
+                            <h3 id="stat-satisfaction" class="text-3xl font-bold dark:text-white">--<span
+                                    class="text-slate-400 text-lg">/5</span></h3>
+                            <div class="flex text-yellow-400">
+                                <span class="material-symbols-outlined text-sm fill-1">star</span>
+                                <span class="material-symbols-outlined text-sm fill-1">star</span>
+                                <span class="material-symbols-outlined text-sm fill-1">star</span>
+                                <span class="material-symbols-outlined text-sm fill-1">star</span>
+                                <span class="material-symbols-outlined text-sm">star</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Middle Section: Queue & Chart -->
+                <div class="grid grid-cols-1 xl:grid-cols-3 gap-6">
+                    <!-- Live Queue Table -->
+                    <div
+                        class="xl:col-span-2 bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
+                        <div
+                            class="p-6 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center">
+                            <h4 class="font-bold text-slate-900 dark:text-white">Live Queue Status</h4>
+                            <button onclick="window.location.href='Patient_Symptom_Summaries.html'"
+                                class="text-primary text-sm font-semibold hover:underline">View All Patients</button>
+                        </div>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left">
+                                <thead>
+                                    <tr
+                                        class="bg-slate-50 dark:bg-slate-800/50 text-slate-500 dark:text-slate-400 text-xs font-bold uppercase tracking-wider">
+                                        <th class="px-6 py-4">Token</th>
+                                        <th class="px-6 py-4">Patient Name</th>
+                                        <th class="px-6 py-4">Department</th>
+                                        <th class="px-6 py-4 text-center">Wait</th>
+                                        <th class="px-6 py-4 text-right">Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="active-queue-table" class="divide-y divide-slate-100 dark:divide-slate-800">
+                                    <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+                                        <td colspan="5" class="px-6 py-4 text-center text-sm text-slate-500">Loading
+                                            live queue...</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <!-- Wait Time Predictions Line Chart -->
+                    <div
+                        class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col">
+                        <div class="mb-4">
+                            <h4 class="font-bold text-slate-900 dark:text-white">Wait Time Predictions</h4>
+                            <div class="flex gap-4 mt-2">
+                                <div class="flex items-center gap-1.5">
+                                    <span class="size-2 rounded-full bg-yellow-400"></span>
+                                    <span class="text-xs text-slate-500 dark:text-slate-400">Actual</span>
+                                </div>
+                                <div class="flex items-center gap-1.5">
+                                    <span class="size-2 rounded-full bg-teal-400"></span>
+                                    <span class="text-xs text-slate-500 dark:text-slate-400">Predicted</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex-1 min-h-[200px] relative mt-4">
+                            <!-- SVG Line Chart Mock -->
+                            <svg class="w-full h-full overflow-visible" viewbox="0 0 400 200">
+                                <!-- Grid Lines -->
+                                <line class="text-slate-100 dark:text-slate-800" stroke="currentColor" stroke-width="1"
+                                    x1="0" x2="400" y1="40" y2="40"></line>
+                                <line class="text-slate-100 dark:text-slate-800" stroke="currentColor" stroke-width="1"
+                                    x1="0" x2="400" y1="80" y2="80"></line>
+                                <line class="text-slate-100 dark:text-slate-800" stroke="currentColor" stroke-width="1"
+                                    x1="0" x2="400" y1="120" y2="120"></line>
+                                <line class="text-slate-100 dark:text-slate-800" stroke="currentColor" stroke-width="1"
+                                    x1="0" x2="400" y1="160" y2="160"></line>
+                                <!-- Predicted Line (Teal) -->
+                                <path d="M0,150 Q50,140 100,100 T200,80 T300,120 T400,60" fill="none" stroke="#2dd4bf"
+                                    stroke-linecap="round" stroke-width="3"></path>
+                                <!-- Actual Line (Gold) -->
+                                <path d="M0,160 Q50,155 100,110 T200,90 T300,130 T400,75" fill="none" stroke="#facc15"
+                                    stroke-dasharray="8 4" stroke-linecap="round" stroke-width="3"></path>
+                            </svg>
+                            <div
+                                class="flex justify-between mt-4 text-[10px] font-bold text-slate-400 dark:text-slate-500">
+                                <span>08:00</span>
+                                <span>12:00</span>
+                                <span>16:00</span>
+                                <span>20:00</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Bottom Section: Bar Chart -->
+                <div
+                    class="bg-white dark:bg-slate-900 p-8 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
+                    <div class="flex items-center justify-between mb-8">
+                        <div>
+                            <h4 class="font-bold text-slate-900 dark:text-white">Rush Hour Forecast</h4>
+                            <p class="text-sm text-slate-500 dark:text-slate-400">Estimated patient inflow for the next
+                                12 hours</p>
+                        </div>
+                        <select
+                            class="bg-slate-50 dark:bg-slate-800 border-none rounded-lg text-sm font-medium py-1.5 pl-3 pr-8 focus:ring-1 focus:ring-primary">
+                            <option>Today</option>
+                            <option>Tomorrow</option>
+                        </select>
+                    </div>
+                    <div class="flex items-end justify-between h-48 gap-2 sm:gap-4 px-2">
+                        <!-- Bar chart simulation -->
+                        <div class="flex-1 bg-primary/20 rounded-t h-[40%] relative group">
+                            <div
+                                class="absolute inset-x-0 bottom-full mb-2 bg-slate-800 text-white text-[10px] px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity text-center whitespace-nowrap">
+                                22 pts</div>
+                        </div>
+                        <div class="flex-1 bg-primary/20 rounded-t h-[35%] relative group"></div>
+                        <div class="flex-1 bg-primary/20 rounded-t h-[55%] relative group"></div>
+                        <div class="flex-1 bg-primary/40 rounded-t h-[85%] relative group">
+                            <div
+                                class="absolute inset-x-0 bottom-full mb-2 bg-slate-800 text-white text-[10px] px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity text-center whitespace-nowrap">
+                                Peak: 48 pts</div>
+                        </div>
+                        <div class="flex-1 bg-primary/40 rounded-t h-[95%] relative group"></div>
+                        <div class="flex-1 bg-primary/30 rounded-t h-[75%] relative group"></div>
+                        <div class="flex-1 bg-primary/20 rounded-t h-[50%] relative group"></div>
+                        <div class="flex-1 bg-primary/20 rounded-t h-[45%] relative group"></div>
+                        <div class="flex-1 bg-primary/20 rounded-t h-[65%] relative group"></div>
+                        <div class="flex-1 bg-primary/20 rounded-t h-[40%] relative group"></div>
+                        <div class="flex-1 bg-primary/10 rounded-t h-[20%] relative group"></div>
+                        <div class="flex-1 bg-primary/10 rounded-t h-[15%] relative group"></div>
+                    </div>
+                    <div
+                        class="flex justify-between mt-4 text-xs font-medium text-slate-400 dark:text-slate-500 uppercase tracking-tighter sm:tracking-normal">
+                        <span>09 AM</span>
+                        <span>11 AM</span>
+                        <span>01 PM</span>
+                        <span>03 PM</span>
+                        <span>05 PM</span>
+                        <span>07 PM</span>
+                        <span>09 PM</span>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script>
+        async function loadActiveQueue() {
+            try {
+                const res = await fetch("http://localhost:8000/api/queue/active");
+                if (!res.ok) return;
+                const data = await res.json();
+
+                const tbody = document.getElementById("active-queue-table");
+                if (!tbody) return;
+
+                tbody.innerHTML = "";
+
+                const statusMap = {
+                    "waiting": `<span class="px-3 py-1 bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-400 rounded-full text-xs font-bold uppercase">Waiting</span>`,
+                    "in_progress": `<span class="px-3 py-1 bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400 rounded-full text-xs font-bold uppercase">In Progress</span>`,
+                    "emergency": `<span class="px-3 py-1 bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400 rounded-full text-xs font-bold uppercase">Emergency</span>`,
+                };
+
+                if (data.length === 0) {
+                    tbody.innerHTML = `<tr><td colspan="5" class="px-6 py-4 text-center text-sm text-slate-500">No active patients in queue.</td></tr>`;
+                    return;
+                }
+
+                data.forEach(item => {
+                    const badge = statusMap[item.status] || `<span class="px-3 py-1 bg-slate-100 text-slate-700 rounded-full text-xs font-bold uppercase">${item.status}</span>`;
+
+                    const tr = document.createElement("tr");
+                    tr.className = "hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors";
+                    tr.innerHTML = `
+                        <td class="px-6 py-4 text-sm font-bold text-primary dark:text-slate-300">${item.token_number}</td>
+                        <td class="px-6 py-4 text-sm dark:text-white">Patient #${item.patient_id}</td>
+                        <td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">${item.chief_complaint || 'General'}</td>
+                        <td class="px-6 py-4 text-sm text-center font-medium">${item.estimated_wait_time_mins}m</td>
+                        <td class="px-6 py-4 text-right">${badge}</td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+
+            } catch (e) {
+                console.error("Queue fetch failed", e);
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            loadActiveQueue();
+            loadDashboardStats();
+            setInterval(loadActiveQueue, 5000);
+            setInterval(loadDashboardStats, 5000);
+        });
+
+        async function loadDashboardStats() {
+            try {
+                const res = await fetch("http://localhost:8000/api/dashboard/stats");
+                if (!res.ok) return;
+                const s = await res.json();
+
+                const el = (id) => document.getElementById(id);
+                if (el('stat-total')) el('stat-total').textContent = s.total_today;
+                if (el('stat-wait')) el('stat-wait').textContent = s.avg_wait_time + 'm';
+                if (el('stat-emergency')) el('stat-emergency').textContent = s.emergency_count + ' Alerts';
+                if (el('stat-satisfaction')) el('stat-satisfaction').innerHTML = s.satisfaction_score + '<span class="text-slate-400 text-lg">/5</span>';
+            } catch (e) { console.error("Stats fetch failed", e); }
+        }
+    </script>
+</body>
+
+</html>

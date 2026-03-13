@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#152f4c",
+                        "accent-gold": "#d4af37",
+                        "accent-teal": "#2d8a8a",
+                        "accent-red": "#b91c1c",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#13191f",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .fill-icon {
+            font-variation-settings: 'FILL' 1;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 min-h-screen pb-32">
+<!-- Header Section -->
+<header class="sticky top-0 z-20 bg-white dark:bg-primary border-b border-slate-200 dark:border-primary/20 px-4 py-4 flex items-center gap-3">
+<div class="flex items-center justify-center size-10 rounded-full bg-primary/10 dark:bg-accent-gold/20 text-accent-gold">
+<span class="material-symbols-outlined">menu_book</span>
+</div>
+<h1 class="text-xl font-bold text-primary dark:text-slate-100">While You Wait</h1>
+</header>
+<main class="max-w-md mx-auto p-4 space-y-4">
+<div class="mb-2">
+<h2 class="text-2xl font-bold text-slate-900 dark:text-slate-100">Your Health Brief</h2>
+<p class="text-slate-600 dark:text-slate-400 text-sm">Review this information to prepare for your consultation.</p>
+</div>
+<!-- Card 1: Condition Summary (White Card, Teal Border) -->
+<div class="bg-white dark:bg-slate-800 border-l-4 border-accent-teal rounded-xl shadow-sm overflow-hidden">
+<div class="p-5">
+<div class="flex items-center gap-2 mb-2">
+<span class="material-symbols-outlined text-accent-teal text-xl">info</span>
+<span class="text-xs font-semibold uppercase tracking-wider text-accent-teal">Condition Summary</span>
+</div>
+<h3 class="text-lg font-bold mb-2">What this might be</h3>
+<p class="text-slate-600 dark:text-slate-300 leading-relaxed">
+                    Based on the symptoms you reported (cough and mild fever), our system identifies common respiratory causes. This information helps your doctor focus the exam.
+                </p>
+</div>
+<div class="h-48 w-full bg-cover bg-center" data-alt="Medical illustration of respiratory system lungs" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBhsrDR_k6Aj-JtwnouDkK3nkXsVpcrrpGQ1Ii2e7o7ZqYoY3cAIQaYdt4D4foeUVQNeSgNIsu2VeZGiMMdsk3VwcqzDx-Wzm0oDzN64EOjLTMtIL3kwhsxQBMj5ORYUh756o9MwTNl6ziztb0sHILGS0EHYnh-tmQjM4AwZJbVpyH4cnxmyupgtvc3Qcb4NENznjfeGPQO7JHOj1nn2g_JGb_zQOhMmc7RwFUPDrtLfEWOunB_-4KwkkexX8d9vdqQ3laSHKTM1Q')"></div>
+</div>
+<!-- Card 2: What will happen (Navy Card) -->
+<div class="bg-primary text-white rounded-xl shadow-lg overflow-hidden">
+<div class="p-5">
+<div class="flex items-center gap-2 mb-2 text-accent-gold">
+<span class="material-symbols-outlined text-xl">clinical_notes</span>
+<span class="text-xs font-semibold uppercase tracking-wider">Next Steps</span>
+</div>
+<h3 class="text-lg font-bold mb-4">What will happen</h3>
+<ol class="space-y-3">
+<li class="flex gap-3 items-start">
+<span class="flex items-center justify-center size-6 rounded-full bg-white/10 text-xs font-bold shrink-0">1</span>
+<p class="text-sm text-slate-200">The nurse will call your name and take your initial vitals (blood pressure, temperature).</p>
+</li>
+<li class="flex gap-3 items-start">
+<span class="flex items-center justify-center size-6 rounded-full bg-white/10 text-xs font-bold shrink-0">2</span>
+<p class="text-sm text-slate-200">You'll be moved to a private room for a consultation with Dr. Smith.</p>
+</li>
+<li class="flex gap-3 items-start">
+<span class="flex items-center justify-center size-6 rounded-full bg-white/10 text-xs font-bold shrink-0">3</span>
+<p class="text-sm text-slate-200">Potential diagnostic tests (throat swab or X-ray) if deemed necessary.</p>
+</li>
+</ol>
+</div>
+</div>
+<!-- Card 3: Questions to ask (Gold Card) -->
+<div class="bg-accent-gold rounded-xl shadow-md p-5 text-primary">
+<div class="flex items-center gap-2 mb-2">
+<span class="material-symbols-outlined text-xl">help_outline</span>
+<span class="text-xs font-semibold uppercase tracking-wider">Preparation</span>
+</div>
+<h3 class="text-lg font-bold mb-3">Questions to ask</h3>
+<ul class="space-y-2">
+<li class="flex items-start gap-2 text-sm font-medium">
+<span class="material-symbols-outlined text-base mt-0.5">check_circle</span>
+                    How long should I expect these symptoms to last?
+                </li>
+<li class="flex items-start gap-2 text-sm font-medium">
+<span class="material-symbols-outlined text-base mt-0.5">check_circle</span>
+                    Are there specific activities I should avoid?
+                </li>
+<li class="flex items-start gap-2 text-sm font-medium">
+<span class="material-symbols-outlined text-base mt-0.5">check_circle</span>
+                    When should I follow up if I don't feel better?
+                </li>
+</ul>
+</div>
+<!-- Card 4: Don't forget (Red-bordered Card) -->
+<div class="bg-white dark:bg-slate-800 border-2 border-accent-red rounded-xl shadow-sm p-5">
+<div class="flex items-center gap-2 mb-2 text-accent-red">
+<span class="material-symbols-outlined text-xl">priority_high</span>
+<span class="text-xs font-semibold uppercase tracking-wider">Important Reminders</span>
+</div>
+<h3 class="text-lg font-bold mb-2">Don't forget</h3>
+<p class="text-slate-600 dark:text-slate-300 text-sm italic">Please make sure to mention these to the clinical staff:</p>
+<div class="mt-3 flex flex-wrap gap-2">
+<span class="px-3 py-1 bg-accent-red/10 text-accent-red text-xs font-bold rounded-full">Allergies to Penicillin</span>
+<span class="px-3 py-1 bg-accent-red/10 text-accent-red text-xs font-bold rounded-full">Recent travel history</span>
+<span class="px-3 py-1 bg-accent-red/10 text-accent-red text-xs font-bold rounded-full">Current medications</span>
+</div>
+</div>
+</main>
+<!-- Sticky Bottom Queue Status & Navigation -->
+<div class="fixed bottom-0 left-0 right-0 z-30 flex flex-col">
+<!-- Queue Status Bar -->
+<div class="bg-primary text-white px-4 py-3 shadow-[0_-4px_10px_rgba(0,0,0,0.1)]">
+<div class="flex justify-between items-center mb-2">
+<div class="flex flex-col">
+<span class="text-xs text-slate-400 uppercase font-bold tracking-tight">Your Status</span>
+<p class="text-sm font-semibold">14th in line • <span class="text-accent-gold">Est. 48 min</span></p>
+</div>
+<div class="bg-white/10 px-3 py-1 rounded-full text-xs font-bold">
+                    In Queue
+                </div>
+</div>
+<div class="w-full bg-white/20 h-1.5 rounded-full overflow-hidden">
+<div class="bg-accent-gold h-full w-[35%] rounded-full"></div>
+</div>
+</div>
+<!-- Bottom Navigation Bar -->
+<nav class="flex border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-4 pb-6 pt-2">
+<a class="flex flex-1 flex-col items-center justify-center gap-1 text-slate-400" href="#">
+<span class="material-symbols-outlined">home</span>
+<p class="text-[10px] font-bold uppercase tracking-widest">Home</p>
+</a>
+<a class="flex flex-1 flex-col items-center justify-center gap-1 text-slate-400" href="#">
+<span class="material-symbols-outlined">group</span>
+<p class="text-[10px] font-bold uppercase tracking-widest">Queue</p>
+</a>
+<a class="flex flex-1 flex-col items-center justify-center gap-1 text-primary dark:text-accent-gold" href="#">
+<span class="material-symbols-outlined fill-icon">medical_services</span>
+<p class="text-[10px] font-bold uppercase tracking-widest">Health</p>
+</a>
+<a class="flex flex-1 flex-col items-center justify-center gap-1 text-slate-400" href="#">
+<span class="material-symbols-outlined">account_circle</span>
+<p class="text-[10px] font-bold uppercase tracking-widest">Profile</p>
+</a>
+</nav>
+</div>
+</body></html>

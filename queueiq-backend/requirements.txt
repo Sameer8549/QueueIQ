@@ -1,0 +1,18 @@
+# Core
+fastapi
+uvicorn
+pydantic
+python-dotenv
+
+# Database & Cache
+sqlalchemy
+psycopg2-binary
+redis
+
+# Messaging
+twilio
+
+# AI (To be added or mocked initially)
+# openai-whisper
+# transformers
+# google-generativeai

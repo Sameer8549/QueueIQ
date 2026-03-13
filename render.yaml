@@ -1,0 +1,27 @@
+services:
+  # Patient App Frontend
+  - type: web
+    name: queueiq-app
+    env: static
+    buildCommand: "npm install && npm run build"
+    publishPath: queueiq-app/dist
+    rootDir: queueiq-app
+
+  # Staff Portal Frontend
+  - type: web
+    name: queueiq-staff
+    env: static
+    buildCommand: "npm install && npm run build"
+    publishPath: queueiq-staff/dist
+    rootDir: queueiq-staff
+
+  # Backend Service
+  - type: web
+    name: queueiq-backend
+    env: python
+    buildCommand: "pip install -r requirements.txt"
+    startCommand: "uvicorn main:app --host 0.0.0.0 --port 8000"
+    rootDir: queueiq-backend
+    envVars:
+      - key: PORT
+        value: 8000

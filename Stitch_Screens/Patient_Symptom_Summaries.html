@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>QueueIQ Staff Dashboard - Patient Summaries</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#152f4c",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#13191f",
+                    },
+                    fontFamily: {
+                        "display": ["Inter"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 min-h-screen">
+<div class="flex flex-col min-h-screen">
+<!-- Top Navigation Bar -->
+<header class="flex items-center justify-between whitespace-nowrap border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-6 lg:px-10 py-3 sticky top-0 z-50">
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-4 text-primary dark:text-slate-100">
+<span class="material-symbols-outlined text-3xl">medical_services</span>
+<h2 class="text-lg font-bold leading-tight tracking-tight">QueueIQ Staff</h2>
+</div>
+<nav class="hidden md:flex items-center gap-6">
+<a class="text-slate-600 dark:text-slate-400 hover:text-primary dark:hover:text-white text-sm font-medium transition-colors" href="#">Dashboard</a>
+<a class="text-primary dark:text-white border-b-2 border-primary dark:border-white text-sm font-medium pb-1" href="#">Patients</a>
+<a class="text-slate-600 dark:text-slate-400 hover:text-primary dark:hover:text-white text-sm font-medium transition-colors" href="#">Alerts</a>
+</nav>
+</div>
+<div class="flex flex-1 justify-end gap-4 items-center">
+<label class="hidden sm:flex items-center relative w-full max-w-xs">
+<span class="material-symbols-outlined absolute left-3 text-slate-400">search</span>
+<input class="w-full pl-10 pr-4 py-2 rounded-lg border-none bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-slate-100 placeholder:text-slate-400 focus:ring-2 focus:ring-primary/20 text-sm" placeholder="Search tokens or patients..." type="text"/>
+</label>
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 p-2 rounded-full cursor-pointer">notifications</span>
+<div class="size-10 rounded-full bg-slate-200 dark:bg-slate-700 flex items-center justify-center overflow-hidden border border-slate-200 dark:border-slate-700" data-alt="Staff profile picture headshot">
+<span class="material-symbols-outlined">person</span>
+</div>
+</div>
+</div>
+</header>
+<main class="flex-1 flex flex-col max-w-7xl mx-auto w-full p-4 lg:p-6 gap-6">
+<!-- Header Section -->
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+<div>
+<h1 class="text-2xl font-bold text-slate-900 dark:text-white">Patient Symptom Summaries</h1>
+<p class="text-slate-500 dark:text-slate-400 text-sm">Real-time clinical triage overview for today</p>
+</div>
+<div class="flex items-center gap-2 text-sm font-medium text-slate-500">
+<span class="material-symbols-outlined text-sm">update</span>
+<span>Last updated: 2 mins ago</span>
+</div>
+</div>
+<!-- Filter Bar -->
+<div class="flex gap-2 overflow-x-auto pb-2 scrollbar-hide">
+<button class="px-5 py-2 rounded-full bg-primary text-white text-sm font-semibold whitespace-nowrap">All Patients</button>
+<button class="px-5 py-2 rounded-full bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400 text-sm font-medium whitespace-nowrap hover:bg-red-200 dark:hover:bg-red-900/50">Emergency</button>
+<button class="px-5 py-2 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-sm font-medium whitespace-nowrap hover:bg-slate-200 dark:hover:bg-slate-700">General OPD</button>
+<button class="px-5 py-2 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-sm font-medium whitespace-nowrap hover:bg-slate-200 dark:hover:bg-slate-700">Pediatrics</button>
+<button class="px-5 py-2 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-sm font-medium whitespace-nowrap hover:bg-slate-200 dark:hover:bg-slate-700">Ortho</button>
+</div>
+<!-- Patient Cards Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+<!-- Patient Card 1: Emergency -->
+<div class="flex flex-col bg-white dark:bg-slate-900 rounded-xl shadow-sm border-2 border-red-500 overflow-hidden relative group">
+<div class="bg-red-500 text-white px-4 py-1 text-[10px] font-bold uppercase tracking-widest flex items-center gap-2">
+<span class="material-symbols-outlined text-xs">priority_high</span>
+                        Emergency Triage Required
+                    </div>
+<div class="p-5 flex flex-col h-full">
+<div class="flex justify-between items-start mb-4">
+<div>
+<h3 class="text-primary dark:text-blue-400 font-bold text-lg">Token #402</h3>
+<p class="text-xs text-slate-500 dark:text-slate-400">Language: English (UK)</p>
+</div>
+<span class="text-xs font-bold px-2 py-1 rounded bg-slate-100 dark:bg-slate-800">4m ago</span>
+</div>
+<div class="mb-4">
+<p class="text-sm text-slate-500 mb-1">Chief Complaint</p>
+<p class="text-lg font-bold text-slate-900 dark:text-slate-100">Severe Chest Pain &amp; Dyspnea</p>
+</div>
+<div class="flex flex-wrap gap-2 mb-6">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400">Chest Pain</span>
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-orange-100 text-orange-800 dark:bg-orange-900/30 dark:text-orange-400">Tachycardia</span>
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-slate-100 text-slate-800 dark:bg-slate-800 dark:text-slate-300">Sweating</span>
+</div>
+<div class="mt-auto pt-4 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between">
+<button class="flex items-center gap-2 text-primary dark:text-blue-400 text-sm font-semibold hover:underline">
+                                AI Summary <span class="material-symbols-outlined text-lg">expand_more</span>
+</button>
+<button class="bg-primary text-white text-xs font-bold px-3 py-1.5 rounded-lg hover:bg-primary/90">ADMIT</button>
+</div>
+</div>
+</div>
+<!-- Patient Card 2 -->
+<div class="flex flex-col bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-slate-200 dark:border-slate-800 overflow-hidden relative group">
+<div class="p-5 flex flex-col h-full">
+<div class="flex justify-between items-start mb-4">
+<div>
+<h3 class="text-primary dark:text-blue-400 font-bold text-lg">Token #405</h3>
+<p class="text-xs text-slate-500 dark:text-slate-400">Language: Spanish (ES)</p>
+</div>
+<span class="text-xs font-bold px-2 py-1 rounded bg-slate-100 dark:bg-slate-800">12m ago</span>
+</div>
+<div class="mb-4">
+<p class="text-sm text-slate-500 mb-1">Chief Complaint</p>
+<p class="text-lg font-bold text-slate-900 dark:text-slate-100">Acute Migraine &amp; Nausea</p>
+</div>
+<div class="flex flex-wrap gap-2 mb-6">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-orange-100 text-orange-800 dark:bg-orange-900/30 dark:text-orange-400">Headache</span>
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400">Nausea</span>
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-slate-100 text-slate-800 dark:bg-slate-800 dark:text-slate-300">Photophobia</span>
+</div>
+<div class="mt-auto pt-4 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between">
+<button class="flex items-center gap-2 text-primary dark:text-blue-400 text-sm font-semibold hover:underline">
+                                AI Summary <span class="material-symbols-outlined text-lg">expand_more</span>
+</button>
+<button class="bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs font-bold px-3 py-1.5 rounded-lg hover:bg-slate-200 dark:hover:bg-slate-700">TRIAGE</button>
+</div>
+</div>
+</div>
+<!-- Patient Card 3 -->
+<div class="flex flex-col bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-slate-200 dark:border-slate-800 overflow-hidden relative group">
+<div class="p-5 flex flex-col h-full">
+<div class="flex justify-between items-start mb-4">
+<div>
+<h3 class="text-primary dark:text-blue-400 font-bold text-lg">Token #408</h3>
+<p class="text-xs text-slate-500 dark:text-slate-400">Language: English (US)</p>
+</div>
+<span class="text-xs font-bold px-2 py-1 rounded bg-slate-100 dark:bg-slate-800">18m ago</span>
+</div>
+<div class="mb-4">
+<p class="text-sm text-slate-500 mb-1">Chief Complaint</p>
+<p class="text-lg font-bold text-slate-900 dark:text-slate-100">Persistent High Fever</p>
+</div>
+<div class="flex flex-wrap gap-2 mb-6">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400">Fever (102.4°F)</span>
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-slate-100 text-slate-800 dark:bg-slate-800 dark:text-slate-300">Chills</span>
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-slate-100 text-slate-800 dark:bg-slate-800 dark:text-slate-300">Fatigue</span>
+</div>
+<div class="mt-auto pt-4 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between">
+<button class="flex items-center gap-2 text-primary dark:text-blue-400 text-sm font-semibold hover:underline">
+                                AI Summary <span class="material-symbols-outlined text-lg">expand_more</span>
+</button>
+<button class="bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs font-bold px-3 py-1.5 rounded-lg hover:bg-slate-200 dark:hover:bg-slate-700">TRIAGE</button>
+</div>
+</div>
+</div>
+<!-- Patient Card 4 -->
+<div class="flex flex-col bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-slate-200 dark:border-slate-800 overflow-hidden relative group">
+<div class="p-5 flex flex-col h-full">
+<div class="flex justify-between items-start mb-4">
+<div>
+<h3 class="text-primary dark:text-blue-400 font-bold text-lg">Token #410</h3>
+<p class="text-xs text-slate-500 dark:text-slate-400">Language: Mandarin</p>
+</div>
+<span class="text-xs font-bold px-2 py-1 rounded bg-slate-100 dark:bg-slate-800">25m ago</span>
+</div>
+<div class="mb-4">
+<p class="text-sm text-slate-500 mb-1">Chief Complaint</p>
+<p class="text-lg font-bold text-slate-900 dark:text-slate-100">Lower Back Injury</p>
+</div>
+<div class="flex flex-wrap gap-2 mb-6">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-orange-100 text-orange-800 dark:bg-orange-900/30 dark:text-orange-400">Sharp Pain</span>
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-slate-100 text-slate-800 dark:bg-slate-800 dark:text-slate-300">Reduced Mobility</span>
+</div>
+<div class="mt-auto pt-4 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between">
+<button class="flex items-center gap-2 text-primary dark:text-blue-400 text-sm font-semibold hover:underline">
+                                AI Summary <span class="material-symbols-outlined text-lg">expand_more</span>
+</button>
+<button class="bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs font-bold px-3 py-1.5 rounded-lg hover:bg-slate-200 dark:hover:bg-slate-700">TRIAGE</button>
+</div>
+</div>
+</div>
+<!-- Patient Card 5 -->
+<div class="flex flex-col bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-slate-200 dark:border-slate-800 overflow-hidden relative group">
+<div class="p-5 flex flex-col h-full">
+<div class="flex justify-between items-start mb-4">
+<div>
+<h3 class="text-primary dark:text-blue-400 font-bold text-lg">Token #412</h3>
+<p class="text-xs text-slate-500 dark:text-slate-400">Language: Arabic</p>
+</div>
+<span class="text-xs font-bold px-2 py-1 rounded bg-slate-100 dark:bg-slate-800">31m ago</span>
+</div>
+<div class="mb-4">
+<p class="text-sm text-slate-500 mb-1">Chief Complaint</p>
+<p class="text-lg font-bold text-slate-900 dark:text-slate-100">Abdominal Cramps</p>
+</div>
+<div class="flex flex-wrap gap-2 mb-6">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400">Pain Scale: 7/10</span>
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-slate-100 text-slate-800 dark:bg-slate-800 dark:text-slate-300">Vomiting</span>
+</div>
+<div class="mt-auto pt-4 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between">
+<button class="flex items-center gap-2 text-primary dark:text-blue-400 text-sm font-semibold hover:underline">
+                                AI Summary <span class="material-symbols-outlined text-lg">expand_more</span>
+</button>
+<button class="bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs font-bold px-3 py-1.5 rounded-lg hover:bg-slate-200 dark:hover:bg-slate-700">TRIAGE</button>
+</div>
+</div>
+</div>
+<!-- Patient Card 6: Emergency -->
+<div class="flex flex-col bg-white dark:bg-slate-900 rounded-xl shadow-sm border-2 border-red-500 overflow-hidden relative group">
+<div class="bg-red-500 text-white px-4 py-1 text-[10px] font-bold uppercase tracking-widest flex items-center gap-2">
+<span class="material-symbols-outlined text-xs">priority_high</span>
+                        Critical Triage (Pediatric)
+                    </div>
+<div class="p-5 flex flex-col h-full">
+<div class="flex justify-between items-start mb-4">
+<div>
+<h3 class="text-primary dark:text-blue-400 font-bold text-lg">Token #415</h3>
+<p class="text-xs text-slate-500 dark:text-slate-400">Language: English (US)</p>
+</div>
+<span class="text-xs font-bold px-2 py-1 rounded bg-slate-100 dark:bg-slate-800">42m ago</span>
+</div>
+<div class="mb-4">
+<p class="text-sm text-slate-500 mb-1">Chief Complaint</p>
+<p class="text-lg font-bold text-slate-900 dark:text-slate-100">Allergic Reaction (Anaphylaxis)</p>
+</div>
+<div class="flex flex-wrap gap-2 mb-6">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400">Difficulty Breathing</span>
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400">Swelling</span>
+</div>
+<div class="mt-auto pt-4 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between">
+<button class="flex items-center gap-2 text-primary dark:text-blue-400 text-sm font-semibold hover:underline">
+                                AI Summary <span class="material-symbols-outlined text-lg">expand_more</span>
+</button>
+<button class="bg-primary text-white text-xs font-bold px-3 py-1.5 rounded-lg hover:bg-primary/90">ADMIT</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Empty state or Load More -->
+<div class="flex flex-col items-center justify-center py-12 gap-4 border-2 border-dashed border-slate-200 dark:border-slate-800 rounded-xl">
+<span class="material-symbols-outlined text-slate-300 text-5xl">group_add</span>
+<div class="text-center">
+<p class="text-slate-500 dark:text-slate-400 font-medium">Monitoring new arrivals...</p>
+<p class="text-slate-400 dark:text-slate-500 text-sm">System is connected and updating live.</p>
+</div>
+<button class="mt-2 px-6 py-2 border border-primary text-primary dark:border-blue-400 dark:text-blue-400 rounded-lg text-sm font-bold hover:bg-primary/5 transition-colors">Load History</button>
+</div>
+</main>
+<!-- Bottom Tab Navigation (Mobile Only) -->
+<footer class="md:hidden sticky bottom-0 bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 px-6 py-3 flex justify-between items-center z-50">
+<div class="flex flex-col items-center gap-1 text-slate-400">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="text-[10px] font-bold uppercase">Queue</span>
+</div>
+<div class="flex flex-col items-center gap-1 text-primary dark:text-blue-400">
+<span class="material-symbols-outlined">article</span>
+<span class="text-[10px] font-bold uppercase">Summaries</span>
+</div>
+<div class="flex flex-col items-center gap-1 text-slate-400">
+<span class="material-symbols-outlined">history</span>
+<span class="text-[10px] font-bold uppercase">History</span>
+</div>
+<div class="flex flex-col items-center gap-1 text-slate-400">
+<span class="material-symbols-outlined">settings</span>
+<span class="text-[10px] font-bold uppercase">Settings</span>
+</div>
+</footer>
+</div>
+</body></html>

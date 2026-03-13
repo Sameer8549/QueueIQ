@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>QueueIQ - QR Scan Landing</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+        rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#152f4c",
+                        "accent-gold": "#d4af37",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#13191f",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+    <style>
+        .qr-viewfinder {
+            position: relative;
+            width: 280px;
+            height: 280px;
+            border: 2px solid transparent;
+        }
+
+        .qr-corner {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            border-color: #d4af37;
+            border-style: solid;
+        }
+
+        .top-left {
+            top: 0;
+            left: 0;
+            border-width: 4px 0 0 4px;
+            border-top-left-radius: 1rem;
+        }
+
+        .top-right {
+            top: 0;
+            right: 0;
+            border-width: 4px 4px 0 0;
+            border-top-right-radius: 1rem;
+        }
+
+        .bottom-left {
+            bottom: 0;
+            left: 0;
+            border-width: 0 0 4px 4px;
+            border-bottom-left-radius: 1rem;
+        }
+
+        .bottom-right {
+            bottom: 0;
+            right: 0;
+            border-width: 0 4px 4px 0;
+            border-bottom-right-radius: 1rem;
+        }
+
+        .scan-line {
+            position: absolute;
+            left: 10%;
+            right: 10%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #d4af37, transparent);
+            top: 50%;
+            box-shadow: 0 0 15px 2px #d4af37;
+        }
+
+        .pulse-ring {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 320px;
+            height: 320px;
+            border: 2px solid rgba(212, 175, 55, 0.3);
+            border-radius: 2rem;
+        }
+    </style>
+    <style>
+        body {
+            min-height: max(884px, 100dvh);
+        }
+    </style>
+</head>
+
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 antialiased">
+    <div
+        class="relative flex min-h-screen w-full flex-col max-w-md mx-auto bg-white dark:bg-background-dark shadow-xl overflow-x-hidden">
+        <!-- Header / Logo Section -->
+        <header class="flex flex-col items-center justify-center pt-8 pb-4">
+            <div class="flex items-center gap-2 mb-1">
+                <div class="bg-primary p-2 rounded-lg">
+                    <span class="material-symbols-outlined text-accent-gold text-3xl">medical_services</span>
+                </div>
+                <h1 class="text-primary dark:text-slate-100 text-3xl font-bold tracking-tight">Queue<span
+                        class="text-accent-gold">IQ</span></h1>
+            </div>
+            <p class="text-primary/60 dark:text-slate-400 text-xs font-semibold uppercase tracking-widest">Healthcare
+                Management</p>
+        </header>
+        <!-- QR Scanner Area -->
+        <main class="flex-1 flex flex-col items-center justify-center px-6 py-8">
+            <div class="relative flex items-center justify-center mb-8">
+                <!-- Pulse Effect Decor -->
+                <div class="pulse-ring"></div>
+                <!-- Viewfinder -->
+                <div onclick="simulateScan()"
+                    class="qr-viewfinder bg-slate-50 dark:bg-slate-900/50 flex items-center justify-center overflow-hidden rounded-xl cursor-pointer transition-transform hover:scale-105 active:scale-95">
+                    <div class="qr-corner top-left"></div>
+                    <div class="qr-corner top-right"></div>
+                    <div class="qr-corner bottom-left"></div>
+                    <div class="qr-corner bottom-right"></div>
+                    <div class="scan-line"></div>
+                    <!-- Simulated Camera View / Placeholder -->
+                    <div class="w-full h-full opacity-20 bg-cover bg-center"
+                        data-alt="Blurry background of a hospital lobby or reception area"
+                        style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAOZnMwB5Ow2I0TRTy_Vrhl4-0vrQJW-upokmECHcNw1VqbleBIod4nRsVkZI1zjRYVgGnQw_4g8ekr_nkOzUv6D6kdavxdC6pLEPCTCd7jwRVqxI0fxcJZUjvy97J4vaphzGx-tut_IMn2fHeo6DPq10dVKpyd0V-5gOlAZ6wj8DpSHQNmAl3CGsJuDlhhhNn75eM1Y_nNVR-xdpBqaMvbC1RwRjnmD9VZ4ghz9cbkK6fo1zJiJJWwuJQ4CdSoZJKHkzf2-5zdaQ')">
+                    </div>
+                    <span
+                        class="material-symbols-outlined absolute text-primary/10 dark:text-white/10 text-9xl">qr_code_scanner</span>
+                    <div id="scan-success-overlay"
+                        class="absolute inset-0 bg-green-500/80 hidden flex items-center justify-center backdrop-blur-sm z-10 transition-opacity">
+                        <span class="material-symbols-outlined text-white text-6xl drop-shadow-lg">check_circle</span>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center space-y-2">
+                <h2 class="text-xl font-bold text-primary dark:text-slate-100">Scan QR Code</h2>
+                <p class="text-primary/70 dark:text-slate-400 text-sm px-8 leading-relaxed">Position the QR code at the
+                    hospital entrance within the frame to automatically check-in.</p>
+            </div>
+        </main>
+        <!-- Footer Elements -->
+        <div class="bg-slate-50 dark:bg-slate-900/40 rounded-t-3xl p-6 space-y-6 shadow-[0_-4px_20px_rgba(0,0,0,0.05)]">
+            <!-- Language Selector -->
+            <div class="space-y-3">
+                <div class="flex items-center justify-between px-1">
+                    <span class="text-xs font-bold text-primary/50 dark:text-slate-500 uppercase tracking-wider">Select
+                        Language</span>
+                    <span class="material-symbols-outlined text-primary/40 text-sm">translate</span>
+                </div>
+                <div id="lang-container" class="flex gap-3 overflow-x-auto pb-2 no-scrollbar scroll-smooth">
+                    <button onclick="selectLang(this,'en')" data-lang="en"
+                        class="lang-btn flex h-10 shrink-0 items-center justify-center gap-x-2 rounded-full bg-primary text-white px-4 shadow-sm">
+                        <span class="material-symbols-outlined text-sm check-icon">check_circle</span>
+                        <p class="text-sm font-semibold">English</p>
+                    </button>
+                    <button onclick="selectLang(this,'kn')" data-lang="kn"
+                        class="lang-btn flex h-10 shrink-0 items-center justify-center gap-x-2 rounded-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-primary dark:text-slate-200 px-4">
+                        <span class="material-symbols-outlined text-sm check-icon hidden">check_circle</span>
+                        <p class="text-sm font-medium">ಕನ್ನಡ</p>
+                    </button>
+                    <button onclick="selectLang(this,'hi')" data-lang="hi"
+                        class="lang-btn flex h-10 shrink-0 items-center justify-center gap-x-2 rounded-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-primary dark:text-slate-200 px-4">
+                        <span class="material-symbols-outlined text-sm check-icon hidden">check_circle</span>
+                        <p class="text-sm font-medium">हिन्दी</p>
+                    </button>
+                    <button onclick="selectLang(this,'ta')" data-lang="ta"
+                        class="lang-btn flex h-10 shrink-0 items-center justify-center gap-x-2 rounded-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-primary dark:text-slate-200 px-4">
+                        <span class="material-symbols-outlined text-sm check-icon hidden">check_circle</span>
+                        <p class="text-sm font-medium">தமிழ்</p>
+                    </button>
+                    <button onclick="selectLang(this,'te')" data-lang="te"
+                        class="lang-btn flex h-10 shrink-0 items-center justify-center gap-x-2 rounded-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-primary dark:text-slate-200 px-4">
+                        <span class="material-symbols-outlined text-sm check-icon hidden">check_circle</span>
+                        <p class="text-sm font-medium">తెలుగు</p>
+                    </button>
+                    <button onclick="selectLang(this,'ml')" data-lang="ml"
+                        class="lang-btn flex h-10 shrink-0 items-center justify-center gap-x-2 rounded-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-primary dark:text-slate-200 px-4">
+                        <span class="material-symbols-outlined text-sm check-icon hidden">check_circle</span>
+                        <p class="text-sm font-medium">മലയാളം</p>
+                    </button>
+                </div>
+            </div>
+            <!-- Manual Entry CTA -->
+            <div class="pt-2 flex flex-col gap-3">
+                <button onclick="manualEntry()"
+                    class="w-full flex items-center justify-center gap-2 bg-primary hover:bg-primary/90 text-white font-bold py-4 px-6 rounded-xl transition-all shadow-lg active:scale-[0.98]">
+                    <span class="material-symbols-outlined text-accent-gold">keyboard</span>
+                    Enter Token Manually
+                </button>
+                <p
+                    class="text-center text-primary/50 dark:text-slate-500 text-[10px] mt-4 font-medium uppercase tracking-widest">
+                    Secured by QueueIQ Medical Systems
+                </p>
+            </div>
+        </div>
+        <!-- Bottom Nav -->
+        <nav class="border-t border-primary/10 bg-white dark:bg-background-dark pb-6 pt-2 sticky bottom-0 z-50">
+            <div class="flex justify-around">
+                <a class="flex flex-col items-center gap-1 text-primary" href="index.html">
+                    <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1">home</span>
+                    <span class="text-[10px] font-bold uppercase">Home</span>
+                </a>
+                <a class="flex flex-col items-center gap-1 text-slate-400" href="Token_Registration_Welcome.html">
+                    <span class="material-symbols-outlined">confirmation_number</span>
+                    <span class="text-[10px] font-bold uppercase">Token</span>
+                </a>
+                <a class="flex flex-col items-center gap-1 text-slate-400" href="Your_Health_Brief.html">
+                    <span class="material-symbols-outlined">lightbulb</span>
+                    <span class="text-[10px] font-bold uppercase">Insights</span>
+                </a>
+                <a class="flex flex-col items-center gap-1 text-slate-400" href="WhatsApp_Integration.html">
+                    <span class="material-symbols-outlined">chat</span>
+                    <span class="text-[10px] font-bold uppercase">Support</span>
+                </a>
+            </div>
+        </nav>
+    </div>
+    <style>
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+    <script>
+        function selectLang(btn, code) {
+            document.querySelectorAll('.lang-btn').forEach(b => {
+                b.classList.remove('bg-primary', 'text-white', 'shadow-sm');
+                b.classList.add('bg-white', 'dark:bg-slate-800', 'border', 'border-slate-200', 'text-primary');
+                b.querySelector('.check-icon')?.classList.add('hidden');
+            });
+            btn.classList.remove('bg-white', 'dark:bg-slate-800', 'border', 'border-slate-200', 'text-primary');
+            btn.classList.add('bg-primary', 'text-white', 'shadow-sm');
+            btn.querySelector('.check-icon')?.classList.remove('hidden');
+            localStorage.setItem('queueiq_language', code);
+        }
+
+        async function registerPatient() {
+            const overlay = document.getElementById('scan-success-overlay');
+            if (overlay) overlay.classList.remove('hidden');
+            const lang = localStorage.getItem('queueiq_language') || 'en';
+
+            try {
+                const patientRes = await fetch("http://localhost:8000/api/queue/patient", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        whatsapp_number: "whatsapp:+91" + Math.floor(1000000000 + Math.random() * 9000000000),
+                        name: "Patient",
+                        language: lang
+                    })
+                });
+                const patientData = await patientRes.json();
+
+                const tokenRes = await fetch("http://localhost:8000/api/queue/token", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ patient_id: patientData.id })
+                });
+                const tokenData = await tokenRes.json();
+
+                localStorage.setItem("queueiq_patient_id", patientData.id);
+                localStorage.setItem("queueiq_token_number", tokenData.token_number);
+                localStorage.setItem("queueiq_token_id", tokenData.id);
+                localStorage.setItem("queueiq_wait_time", tokenData.estimated_wait_time_mins);
+                localStorage.setItem("queueiq_queue_position", tokenData.queue_position);
+                localStorage.setItem("queueiq_department", tokenData.department);
+
+                setTimeout(() => {
+                    window.location.href = 'Token_Registration_Welcome.html';
+                }, 800);
+            } catch (e) {
+                console.error("Backend offline, falling back to mock", e);
+                localStorage.setItem("queueiq_token_number", "TK-0047");
+                localStorage.setItem("queueiq_wait_time", "45");
+                localStorage.setItem("queueiq_queue_position", "12");
+                localStorage.setItem("queueiq_department", "General Medicine");
+                setTimeout(() => { window.location.href = 'Token_Registration_Welcome.html'; }, 800);
+            }
+        }
+
+        function simulateScan() { registerPatient(); }
+        function manualEntry() { registerPatient(); }
+    </script>
+</body>
+
+</html>

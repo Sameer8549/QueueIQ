@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>QueueIQ - QR Scan Landing</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#152f4c",
+                        "accent-gold": "#d4af37",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#13191f",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        .qr-viewfinder {
+            position: relative;
+            width: 280px;
+            height: 280px;
+            border: 2px solid transparent;
+        }
+        .qr-corner {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            border-color: #d4af37;
+            border-style: solid;
+        }
+        .top-left { top: 0; left: 0; border-width: 4px 0 0 4px; border-top-left-radius: 1rem; }
+        .top-right { top: 0; right: 0; border-width: 4px 4px 0 0; border-top-right-radius: 1rem; }
+        .bottom-left { bottom: 0; left: 0; border-width: 0 0 4px 4px; border-bottom-left-radius: 1rem; }
+        .bottom-right { bottom: 0; right: 0; border-width: 0 4px 4px 0; border-bottom-right-radius: 1rem; }
+        
+        .scan-line {
+            position: absolute;
+            left: 10%;
+            right: 10%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #d4af37, transparent);
+            top: 50%;
+            box-shadow: 0 0 15px 2px #d4af37;
+        }
+        
+        .pulse-ring {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 320px;
+            height: 320px;
+            border: 2px solid rgba(212, 175, 55, 0.3);
+            border-radius: 2rem;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 antialiased">
+<div class="relative flex min-h-screen w-full flex-col max-w-md mx-auto bg-white dark:bg-background-dark shadow-xl overflow-x-hidden">
+<!-- Header / Logo Section -->
+<header class="flex flex-col items-center justify-center pt-8 pb-4">
+<div class="flex items-center gap-2 mb-1">
+<div class="bg-primary p-2 rounded-lg">
+<span class="material-symbols-outlined text-accent-gold text-3xl">medical_services</span>
+</div>
+<h1 class="text-primary dark:text-slate-100 text-3xl font-bold tracking-tight">Queue<span class="text-accent-gold">IQ</span></h1>
+</div>
+<p class="text-primary/60 dark:text-slate-400 text-xs font-semibold uppercase tracking-widest">Healthcare Management</p>
+</header>
+<!-- QR Scanner Area -->
+<main class="flex-1 flex flex-col items-center justify-center px-6 py-8">
+<div class="relative flex items-center justify-center mb-8">
+<!-- Pulse Effect Decor -->
+<div class="pulse-ring"></div>
+<!-- Viewfinder -->
+<div class="qr-viewfinder bg-slate-50 dark:bg-slate-900/50 flex items-center justify-center overflow-hidden rounded-xl">
+<div class="qr-corner top-left"></div>
+<div class="qr-corner top-right"></div>
+<div class="qr-corner bottom-left"></div>
+<div class="qr-corner bottom-right"></div>
+<div class="scan-line"></div>
+<!-- Simulated Camera View / Placeholder -->
+<div class="w-full h-full opacity-20 bg-cover bg-center" data-alt="Blurry background of a hospital lobby or reception area" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAOZnMwB5Ow2I0TRTy_Vrhl4-0vrQJW-upokmECHcNw1VqbleBIod4nRsVkZI1zjRYVgGnQw_4g8ekr_nkOzUv6D6kdavxdC6pLEPCTCd7jwRVqxI0fxcJZUjvy97J4vaphzGx-tut_IMn2fHeo6DPq10dVKpyd0V-5gOlAZ6wj8DpSHQNmAl3CGsJuDlhhhNn75eM1Y_nNVR-xdpBqaMvbC1RwRjnmD9VZ4ghz9cbkK6fo1zJiJJWwuJQ4CdSoZJKHkzf2-5zdaQ')"></div>
+<span class="material-symbols-outlined absolute text-primary/10 dark:text-white/10 text-9xl">qr_code_scanner</span>
+</div>
+</div>
+<div class="text-center space-y-2">
+<h2 class="text-xl font-bold text-primary dark:text-slate-100">Scan QR Code</h2>
+<p class="text-primary/70 dark:text-slate-400 text-sm px-8 leading-relaxed">Position the QR code at the hospital entrance within the frame to automatically check-in.</p>
+</div>
+</main>
+<!-- Footer Elements -->
+<div class="bg-slate-50 dark:bg-slate-900/40 rounded-t-3xl p-6 space-y-6 shadow-[0_-4px_20px_rgba(0,0,0,0.05)]">
+<!-- Language Selector -->
+<div class="space-y-3">
+<div class="flex items-center justify-between px-1">
+<span class="text-xs font-bold text-primary/50 dark:text-slate-500 uppercase tracking-wider">Select Language</span>
+<span class="material-symbols-outlined text-primary/40 text-sm">translate</span>
+</div>
+<div class="flex gap-3 overflow-x-auto pb-2 no-scrollbar scroll-smooth">
+<button class="flex h-10 shrink-0 items-center justify-center gap-x-2 rounded-full bg-primary text-white px-4 shadow-sm">
+<span class="material-symbols-outlined text-sm">check_circle</span>
+<p class="text-sm font-semibold">English</p>
+</button>
+<button class="flex h-10 shrink-0 items-center justify-center gap-x-2 rounded-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-primary dark:text-slate-200 px-4">
+<p class="text-sm font-medium">ಕನ್ನಡ</p>
+</button>
+<button class="flex h-10 shrink-0 items-center justify-center gap-x-2 rounded-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-primary dark:text-slate-200 px-4">
+<p class="text-sm font-medium">हिन्दी</p>
+</button>
+<button class="flex h-10 shrink-0 items-center justify-center gap-x-2 rounded-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-primary dark:text-slate-200 px-4">
+<p class="text-sm font-medium">தமிழ்</p>
+</button>
+<button class="flex h-10 shrink-0 items-center justify-center gap-x-2 rounded-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-primary dark:text-slate-200 px-4">
+<p class="text-sm font-medium">తెలుగు</p>
+</button>
+<button class="flex h-10 shrink-0 items-center justify-center gap-x-2 rounded-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-primary dark:text-slate-200 px-4">
+<p class="text-sm font-medium">മലയാളം</p>
+</button>
+</div>
+</div>
+<!-- Manual Entry CTA -->
+<div class="pt-2">
+<button class="w-full flex items-center justify-center gap-2 bg-primary hover:bg-primary/90 text-white font-bold py-4 px-6 rounded-xl transition-all shadow-lg active:scale-[0.98]">
+<span class="material-symbols-outlined text-accent-gold">keyboard</span>
+                    Enter Token Manually
+                </button>
+<p class="text-center text-primary/50 dark:text-slate-500 text-[10px] mt-4 font-medium uppercase tracking-widest">
+                    Secured by QueueIQ Medical Systems
+                </p>
+</div>
+</div>
+<!-- System Navbar Decoration -->
+<div class="flex justify-center pb-2 pt-1">
+<div class="h-1.5 w-32 bg-slate-300 dark:bg-slate-700 rounded-full"></div>
+</div>
+</div>
+<style>
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</body></html>

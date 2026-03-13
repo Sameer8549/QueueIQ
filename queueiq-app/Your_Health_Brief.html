@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+        rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#152f4c",
+                        "accent-gold": "#d4af37",
+                        "accent-teal": "#2d8a8a",
+                        "accent-red": "#b91c1c",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#13191f",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        .fill-icon {
+            font-variation-settings: 'FILL' 1;
+        }
+    </style>
+    <style>
+        body {
+            min-height: max(884px, 100dvh);
+        }
+    </style>
+</head>
+
+<body
+    class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 min-h-screen pb-32">
+    <!-- Header Section -->
+    <header
+        class="sticky top-0 z-20 bg-white dark:bg-primary border-b border-slate-200 dark:border-primary/20 px-4 py-4 flex items-center gap-3">
+        <button onclick="history.back()" class="p-1 -ml-1 rounded-full hover:bg-primary/10 transition-colors">
+            <span class="material-symbols-outlined text-primary dark:text-slate-100">arrow_back</span>
+        </button>
+        <div
+            class="flex items-center justify-center size-10 rounded-full bg-primary/10 dark:bg-accent-gold/20 text-accent-gold">
+            <span class="material-symbols-outlined">menu_book</span>
+        </div>
+        <h1 class="text-xl font-bold text-primary dark:text-slate-100">While You Wait</h1>
+    </header>
+    <main class="max-w-md mx-auto p-4 space-y-4">
+        <div class="mb-2">
+            <h2 class="text-2xl font-bold text-slate-900 dark:text-slate-100">Your Health Brief</h2>
+            <p class="text-slate-600 dark:text-slate-400 text-sm">Review this information to prepare for your
+                consultation.</p>
+        </div>
+        <!-- Card 1: Condition Summary (White Card, Teal Border) -->
+        <div class="bg-white dark:bg-slate-800 border-l-4 border-accent-teal rounded-xl shadow-sm overflow-hidden">
+            <div class="p-5">
+                <div class="flex items-center gap-2 mb-2">
+                    <span class="material-symbols-outlined text-accent-teal text-xl">info</span>
+                    <span class="text-xs font-semibold uppercase tracking-wider text-accent-teal">Condition
+                        Summary</span>
+                </div>
+                <h3 class="text-lg font-bold mb-2">What this might be</h3>
+                <p class="text-slate-600 dark:text-slate-300 leading-relaxed">
+                    Based on the symptoms you reported (cough and mild fever), our system identifies common respiratory
+                    causes. This information helps your doctor focus the exam.
+                </p>
+            </div>
+            <div class="h-48 w-full bg-cover bg-center" data-alt="Medical illustration of respiratory system lungs"
+                style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBhsrDR_k6Aj-JtwnouDkK3nkXsVpcrrpGQ1Ii2e7o7ZqYoY3cAIQaYdt4D4foeUVQNeSgNIsu2VeZGiMMdsk3VwcqzDx-Wzm0oDzN64EOjLTMtIL3kwhsxQBMj5ORYUh756o9MwTNl6ziztb0sHILGS0EHYnh-tmQjM4AwZJbVpyH4cnxmyupgtvc3Qcb4NENznjfeGPQO7JHOj1nn2g_JGb_zQOhMmc7RwFUPDrtLfEWOunB_-4KwkkexX8d9vdqQ3laSHKTM1Q')">
+            </div>
+        </div>
+        <!-- Card 2: What will happen (Navy Card) -->
+        <div class="bg-primary text-white rounded-xl shadow-lg overflow-hidden">
+            <div class="p-5">
+                <div class="flex items-center gap-2 mb-2 text-accent-gold">
+                    <span class="material-symbols-outlined text-xl">clinical_notes</span>
+                    <span class="text-xs font-semibold uppercase tracking-wider">Next Steps</span>
+                </div>
+                <h3 class="text-lg font-bold mb-4">What will happen</h3>
+                <ol class="space-y-3">
+                    <li class="flex gap-3 items-start">
+                        <span
+                            class="flex items-center justify-center size-6 rounded-full bg-white/10 text-xs font-bold shrink-0">1</span>
+                        <p class="text-sm text-slate-200">The nurse will call your name and take your initial vitals
+                            (blood pressure, temperature).</p>
+                    </li>
+                    <li class="flex gap-3 items-start">
+                        <span
+                            class="flex items-center justify-center size-6 rounded-full bg-white/10 text-xs font-bold shrink-0">2</span>
+                        <p class="text-sm text-slate-200">You'll be moved to a private room for a consultation with Dr.
+                            Smith.</p>
+                    </li>
+                    <li class="flex gap-3 items-start">
+                        <span
+                            class="flex items-center justify-center size-6 rounded-full bg-white/10 text-xs font-bold shrink-0">3</span>
+                        <p class="text-sm text-slate-200">Potential diagnostic tests (throat swab or X-ray) if deemed
+                            necessary.</p>
+                    </li>
+                </ol>
+            </div>
+        </div>
+        <!-- Card 3: Questions to ask (Gold Card) -->
+        <div class="bg-accent-gold rounded-xl shadow-md p-5 text-primary">
+            <div class="flex items-center gap-2 mb-2">
+                <span class="material-symbols-outlined text-xl">help_outline</span>
+                <span class="text-xs font-semibold uppercase tracking-wider">Preparation</span>
+            </div>
+            <h3 class="text-lg font-bold mb-3">Questions to ask</h3>
+            <ul class="space-y-2">
+                <li class="flex items-start gap-2 text-sm font-medium">
+                    <span class="material-symbols-outlined text-base mt-0.5">check_circle</span>
+                    How long should I expect these symptoms to last?
+                </li>
+                <li class="flex items-start gap-2 text-sm font-medium">
+                    <span class="material-symbols-outlined text-base mt-0.5">check_circle</span>
+                    Are there specific activities I should avoid?
+                </li>
+                <li class="flex items-start gap-2 text-sm font-medium">
+                    <span class="material-symbols-outlined text-base mt-0.5">check_circle</span>
+                    When should I follow up if I don't feel better?
+                </li>
+            </ul>
+        </div>
+        <!-- Card 4: Don't forget (Red-bordered Card) -->
+        <div class="bg-white dark:bg-slate-800 border-2 border-accent-red rounded-xl shadow-sm p-5">
+            <div class="flex items-center gap-2 mb-2 text-accent-red">
+                <span class="material-symbols-outlined text-xl">priority_high</span>
+                <span class="text-xs font-semibold uppercase tracking-wider">Important Reminders</span>
+            </div>
+            <h3 class="text-lg font-bold mb-2">Don't forget</h3>
+            <p class="text-slate-600 dark:text-slate-300 text-sm italic">Please make sure to mention these to the
+                clinical staff:</p>
+            <div class="mt-3 flex flex-wrap gap-2">
+                <span class="px-3 py-1 bg-accent-red/10 text-accent-red text-xs font-bold rounded-full">Allergies to
+                    Penicillin</span>
+                <span class="px-3 py-1 bg-accent-red/10 text-accent-red text-xs font-bold rounded-full">Recent travel
+                    history</span>
+                <span class="px-3 py-1 bg-accent-red/10 text-accent-red text-xs font-bold rounded-full">Current
+                    medications</span>
+            </div>
+        </div>
+    </main>
+    <!-- Sticky Bottom Queue Status & Navigation -->
+    <div class="fixed bottom-0 left-0 right-0 z-30 flex flex-col">
+        <!-- Queue Status Bar -->
+        <div onclick="window.location.href='Your_Turn_Alert.html'"
+            class="bg-primary text-white px-4 py-3 shadow-[0_-4px_10px_rgba(0,0,0,0.1)] cursor-pointer">
+            <div class="flex justify-between items-center mb-2">
+                <div class="flex flex-col">
+                    <span class="text-xs text-slate-400 uppercase font-bold tracking-tight">Your Status</span>
+                    <p id="health-queue-text" class="text-sm font-semibold transition-all">14th in line • <span
+                            class="text-accent-gold">Est. 48 min</span>
+                    </p>
+                </div>
+                <div class="bg-white/10 px-3 py-1 rounded-full text-xs font-bold">
+                    In Queue
+                </div>
+            </div>
+            <div class="w-full bg-white/20 h-1.5 rounded-full overflow-hidden">
+                <div id="health-queue-bar"
+                    class="bg-accent-gold h-full w-[35%] rounded-full transition-all duration-1000"></div>
+            </div>
+        </div>
+        <!-- Bottom Navigation -->
+    <nav class="border-t border-primary/10 bg-white dark:bg-background-dark pb-6 pt-2 sticky bottom-0 z-50">
+        <div class="flex justify-around">
+            <a class="flex flex-col items-center gap-1 text-slate-400" href="index.html">
+                <span class="material-symbols-outlined">home</span>
+                <span class="text-[10px] font-bold uppercase">Home</span>
+            </a>
+            <a class="flex flex-col items-center gap-1 text-slate-400" href="Token_Registration_Welcome.html">
+                <span class="material-symbols-outlined">confirmation_number</span>
+                <span class="text-[10px] font-bold uppercase">Token</span>
+            </a>
+            <a class="flex flex-col items-center gap-1 text-primary" href="Your_Health_Brief.html">
+                <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1">lightbulb</span>
+                <span class="text-[10px] font-bold uppercase">Insights</span>
+            </a>
+            <a class="flex flex-col items-center gap-1 text-slate-400" href="WhatsApp_Integration.html">
+                <span class="material-symbols-outlined">chat</span>
+                <span class="text-[10px] font-bold uppercase">Support</span>
+            </a>
+        </div>
+    </nav>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Load health brief from localStorage
+            const briefStr = localStorage.getItem('queueiq_health_brief');
+            if (briefStr) {
+                try {
+                    const brief = JSON.parse(briefStr);
+
+                    // Update condition summary card
+                    const condTitle = document.querySelector('.border-accent-teal h3');
+                    const condText = document.querySelector('.border-accent-teal p.text-slate-600');
+                    if (condTitle) condTitle.textContent = brief.title || 'What this might be';
+                    if (condText) condText.textContent = brief.condition_summary || condText.textContent;
+
+                    // Update "what will happen" steps
+                    if (brief.what_to_expect && brief.what_to_expect.length > 0) {
+                        const steps = document.querySelectorAll('.bg-primary ol li p');
+                        brief.what_to_expect.forEach((step, i) => {
+                            if (steps[i]) steps[i].textContent = step;
+                        });
+                    }
+
+                    // Update "questions to ask" 
+                    if (brief.questions_to_ask && brief.questions_to_ask.length > 0) {
+                        const questions = document.querySelectorAll('.bg-accent-gold li');
+                        brief.questions_to_ask.forEach((q, i) => {
+                            if (questions[i]) {
+                                const icon = questions[i].querySelector('span');
+                                questions[i].innerHTML = '';
+                                questions[i].className = 'flex items-start gap-2 text-sm font-medium';
+                                if (icon) questions[i].appendChild(icon);
+                                questions[i].append(q);
+                            }
+                        });
+                    }
+
+                    // Update reminders
+                    if (brief.reminders && brief.reminders.length > 0) {
+                        const tagContainer = document.querySelector('.border-accent-red .flex-wrap');
+                        if (tagContainer) {
+                            tagContainer.innerHTML = brief.reminders.map(r =>
+                                `<span class="px-3 py-1 bg-accent-red/10 text-accent-red text-xs font-bold rounded-full">${r}</span>`
+                            ).join('');
+                        }
+                    }
+                } catch (e) { console.error('Failed to parse health brief', e); }
+            }
+
+            // Update queue status bar with real data
+            const pos = localStorage.getItem('queueiq_queue_position') || '12';
+            const wait = localStorage.getItem('queueiq_wait_time') || '30';
+            const qText = document.getElementById('health-queue-text');
+            if (qText) qText.innerHTML = `${ordinal(parseInt(pos))} in line • <span class="text-accent-gold">Est. ${wait} min</span>`;
+
+            const bar = document.getElementById('health-queue-bar');
+            if (bar) bar.style.width = Math.min(85, (1 - parseInt(wait) / 120) * 100) + '%';
+        });
+
+        function ordinal(n) {
+            const s = ["th", "st", "nd", "rd"];
+            const v = n % 100;
+            return n + (s[(v - 20) % 10] || s[v] || s[0]);
+        }
+    </script>
+</body>
+
+</html>
