@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, UploadFile, File
 from sqlalchemy.orm import Session
 from database import get_db
 import models, schemas
@@ -64,8 +64,7 @@ async def voice_assessment(token_number: str, audio: UploadFile = File(...), db:
         )
         
         # Update token record
-        token.transcription = original_text
-        token.transcription_english = english_complaint
+        token.transcription = english_complaint
         token.clinical_summary = ai_output.get("summary")
         token.patient_brief = ai_output.get("patient_brief")
         token.emergency_risk = triage

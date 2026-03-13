@@ -50,6 +50,8 @@ class Token(Base):
     called_at = Column(DateTime, nullable=True)
     
     hospital = relationship("Hospital", back_populates="tokens")
+    feedbacks = relationship("Feedback", back_populates="token")
+    analytics = relationship("Analytics", back_populates="token")
 
 class Analytics(Base):
     __tablename__ = "analytics"
@@ -79,15 +81,16 @@ class Analytics(Base):
     created_at = Column(DateTime, default=datetime.datetime.utcnow)
     updated_at = Column(DateTime, default=datetime.datetime.utcnow, onupdate=datetime.datetime.utcnow)
 
-    patient = relationship("Patient", back_populates="tokens")
+    token_id = Column(Integer, ForeignKey("tokens.id"))
+    token = relationship("Token", back_populates="analytics")
 
 class Feedback(Base):
     __tablename__ = "feedbacks"
 
     id = Column(Integer, primary_key=True, index=True)
-    patient_id = Column(Integer, ForeignKey("patients.id"))
+    token_id = Column(Integer, ForeignKey("tokens.id"))
     rating = Column(Integer)  # 0-4  (Poor, Meh, Okay, Good, Great)
     comment = Column(Text, nullable=True)
     created_at = Column(DateTime, default=datetime.datetime.utcnow)
 
-    patient = relationship("Patient", back_populates="feedbacks")
+    token = relationship("Token", back_populates="feedbacks")

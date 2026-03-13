@@ -3,9 +3,23 @@ from typing import Optional, List
 from datetime import datetime
 
 class TokenCreate(BaseModel):
-    token_number: str
     hospital_id: int
+    patient_name_masked: str
     language_code: str
+    department: Optional[str] = "General OPD"
+    phone_number: Optional[str] = None
+
+class FeedbackCreate(BaseModel):
+    token_id: int
+    rating: int
+    comment: Optional[str] = None
+
+class PatientBrief(BaseModel):
+    title: str
+    condition_summary: str
+    what_to_expect: List[str]
+    questions_to_ask: List[str]
+    reminders: List[str]
 
 class TokenResponse(BaseModel):
     id: int

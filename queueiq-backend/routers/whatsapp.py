@@ -1,20 +1,11 @@
 from fastapi import APIRouter, Depends, BackgroundTasks, Form
 from sqlalchemy.orm import Session
-from database import SessionLocal
-import ai_engine
-import emergency_triage
-import education_engine
-import crud
+from database import get_db
+from ai_engine import AIEngine
+import models, crud
 import json
 
 router = APIRouter(prefix="/webhook", tags=["whatsapp"])
-
-def get_db():
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
 
 @router.post("/whatsapp")
 async def whatsapp_webhook(
@@ -25,8 +16,8 @@ async def whatsapp_webhook(
     db: Session = Depends(get_db)
 ):
     """
-    Twilio-compatible WhatsApp webhook (PRD Module 2 + 4)
-    Processes voice notes: transcribe → extract symptoms → triage → educate
+    Twilio-compatible WhatsApp webhook
+    Processes voice notes: transcribe → extract symptoms → triage
     """
     if MediaUrl0:
         # Process audio in background
@@ -35,81 +26,39 @@ async def whatsapp_webhook(
     return {"status": "received", "message": "Processing your symptoms..."}
 
 
-def process_audio_triage(media_url: str, sender: str, db: Session):
-    """Full AI pipeline: Whisper → BioBERT NER → Triage → Education"""
+async def process_audio_triage(media_url: str, sender: str, db: Session):
+    """Full AI pipeline via Gemini Cloud"""
     
-    # Step 1: Transcribe (simulating Whisper)
-    transcription = ai_engine.transcribe_audio(media_url)
+    # 1. Transcribe and Translate
+    # Since we don't have the language_code here, we assume English/Auto
+    english_text, original_text = await AIEngine.transcribe_and_translate(media_url, "en")
     
-    # Step 2: Extract symptoms (simulating BioBERT NER)
-    extraction = ai_engine.extract_symptoms(transcription)
+    # 2. Find latest token for this phone number
+    token = db.query(models.Token).filter(
+        models.Token.phone_number.contains(sender.replace("whatsapp:", ""))
+    ).order_by(models.Token.created_at.desc()).first()
     
-    # Step 3: Emergency triage check
-    triage_result = emergency_triage.check_emergency(transcription)
-    
-    # Step 4: Generate health education brief
-    health_brief = education_engine.generate_health_brief(
-        extraction["symptoms"],
-        language="en"
-    )
-    
-    # Step 5: Find patient's latest token and update it
-    patient = crud.get_patient_by_whatsapp(db, sender)
-    if patient:
-        tokens = db.query(crud.models.Token).filter(
-            crud.models.Token.patient_id == patient.id,
-            crud.models.Token.status.in_([
-                crud.models.TokenStatus.waiting,
-                crud.models.TokenStatus.in_progress
-            ])
-        ).order_by(crud.models.Token.created_at.desc()).first()
+    if token:
+        # 3. Generate Clinical Summary & Triage
+        triage = await AIEngine.get_emergency_triage(token.token_number, token.age, english_text, "")
+        summary = await AIEngine.generate_clinical_summary(token.token_number, token.age, token.gender, english_text, "")
         
-        if tokens:
-            update_data = {
-                "chief_complaint": extraction["chief_complaint"],
-                "symptoms_text": transcription,
-                "severity": extraction["severity"],
-                "department": extraction["department"],
-                "extracted_symptoms": extraction["extracted_symptoms_json"],
-                "red_flags": extraction["red_flags_json"],
-                "duration": extraction["duration"],
-            }
+        # 4. Update the token
+        update_data = {
+            "transcription": english_text,
+            "clinical_summary": summary.get("summary"),
+            "patient_brief": summary.get("patient_brief"),
+            "emergency_risk": triage,
+            "status": "emergency-routed" if triage.get("is_emergency") else "waiting"
+        }
+        
+        crud.update_token_symptoms(db, token.id, update_data)
+        
+        # 5. Send confirmation back
+        conf_msg = f"Summary Received: {summary.get('summary', {}).get('dashboard_headline', 'Symptoms processed.')}"
+        if triage.get("is_emergency"):
+            conf_msg = f"⚠️ Alert: {triage.get('patient_whatsapp_message', 'Emergency detected. Staff notified.')}"
             
-            if triage_result["is_emergency"]:
-                update_data["status"] = crud.models.TokenStatus.emergency
-            
-            crud.update_token_symptoms(db, tokens.id, update_data)
+        await AIEngine.send_whatsapp_message(sender, conf_msg)
     
-    return {
-        "transcription": transcription,
-        "extraction": extraction,
-        "triage": triage_result,
-        "health_brief": health_brief
-    }
-
-@router.get("/simulate-intake")
-def simulate_intake(token_id: int = 1, db: Session = Depends(get_db)):
-    """Quick demo endpoint: simulates a patient voice note being processed"""
-    transcription = ai_engine.transcribe_audio("demo")
-    extraction = ai_engine.extract_symptoms(transcription)
-    triage = emergency_triage.check_emergency(transcription)
-    brief = education_engine.generate_health_brief(extraction["symptoms"])
-    
-    # Update the token
-    crud.update_token_symptoms(db, token_id, {
-        "chief_complaint": extraction["chief_complaint"],
-        "symptoms_text": transcription,
-        "severity": extraction["severity"],
-        "department": extraction["department"],
-        "extracted_symptoms": extraction["extracted_symptoms_json"],
-        "red_flags": extraction["red_flags_json"],
-        "duration": extraction["duration"],
-        "status": crud.models.TokenStatus.emergency if triage["is_emergency"] else None
-    })
-    
-    return {
-        "transcription": transcription,
-        "extraction": extraction,
-        "triage": triage,
-        "health_brief": brief
-    }
+    return
