@@ -11,8 +11,12 @@ WORKDIR /app
 RUN apt-get update && apt-get install -y \
     libpq-dev \
     gcc \
+    python3-dev \
     ffmpeg \
     && rm -rf /var/lib/apt/lists/*
+
+# Install build tools
+RUN pip install --no-cache-dir wheel setuptools
 
 # Copy backend requirements and code
 COPY queueiq-backend/requirements.txt .
