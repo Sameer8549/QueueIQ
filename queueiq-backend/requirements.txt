@@ -15,8 +15,13 @@ twilio
 # AI & LLM (Cloud-First via Gemini)
 google-generativeai
 chromadb
-pyjwt
+
+# Security
+python-jose[cryptography]
 passlib[bcrypt]
+bcrypt
+pyjwt
 python-multipart
+
 # audio-processing
 pydub
