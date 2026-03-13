@@ -1,0 +1,13 @@
+SOP: Acute Chest Pain
+Department: Cardiology / Emergency
+Protocol:
+- Immediate ECG within 10 minutes.
+- Check Troponin-T levels.
+- Pulse oxymetry and supplemental oxygen if SpO2 < 94%.
+Red Flags:
+- Pain radiating to left arm/jaw.
+- Profuse sweating (Diaphoresis).
+- Nausea/Shortness of breath.
+Triage:
+- Level 1: Immediate Resuscitation for suspected MI.
+- Level 2: Emergent if stable but high clinical suspicion.

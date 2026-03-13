@@ -105,8 +105,8 @@
                         </button>
                         <div class="flex items-center gap-3 pl-4 border-l border-slate-200 dark:border-slate-800">
                             <div class="text-right hidden sm:block">
-                                <p class="text-sm font-semibold dark:text-white">Dr. Sarah Chen</p>
-                                <p class="text-xs text-slate-500 dark:text-slate-400">Chief Resident</p>
+                                <p id="display-staff-name" class="text-sm font-semibold dark:text-white">Loading...</p>
+                                <p id="display-staff-role" class="text-xs text-slate-500 dark:text-slate-400">Staff</p>
                             </div>
                             <div class="size-10 rounded-full bg-slate-200 bg-cover bg-center"
                                 data-alt="Staff member profile photo"
@@ -299,9 +299,55 @@
         </main>
     </div>
     <script>
+        const API_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' 
+            ? 'http://localhost:8000' 
+            : 'https://your-railway-backend.up.railway.app';
+
+        function checkAuth() {
+            const token = localStorage.getItem('queueiq_token');
+            if (!token) {
+                window.location.href = 'index.html';
+                return;
+            }
+            
+            // Set header info
+            document.getElementById('display-staff-name').textContent = localStorage.getItem('staff_name') || 'Staff Member';
+            document.getElementById('display-staff-role').textContent = localStorage.getItem('staff_role') || 'Hospital Staff';
+            document.querySelectorAll('h2').forEach(el => {
+                if (el.textContent.includes('Hospital')) {
+                    el.textContent = localStorage.getItem('hospital_name') || 'QueueIQ Hospital';
+                }
+            });
+        }
+
+        async function loadDashboardStats() {
+            try {
+                const token = localStorage.getItem('queueiq_token');
+                const res = await fetch(`${API_URL}/api/v1/dashboard/overview`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                if (res.status === 401) window.location.href = 'index.html';
+                if (!res.ok) return;
+                
+                const s = await res.json();
+                const el = (id) => document.getElementById(id);
+                
+                if (el('stat-total')) el('stat-total').textContent = s.patients_today;
+                if (el('stat-wait')) el('stat-wait').textContent = s.avg_wait_min + 'm';
+                if (el('stat-emergency')) el('stat-emergency').textContent = s.emergency_count;
+                if (el('stat-satisfaction')) el('stat-satisfaction').innerHTML = s.satisfaction_score + '<span class="text-slate-400 text-lg">/5</span>';
+                
+            } catch (e) {
+                console.error("Stats fetch failed", e);
+            }
+        }
+
         async function loadActiveQueue() {
             try {
-                const res = await fetch("http://localhost:8000/api/queue/active");
+                const token = localStorage.getItem('queueiq_token');
+                const res = await fetch(`${API_URL}/api/v1/queue/live`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
                 if (!res.ok) return;
                 const data = await res.json();
 
@@ -310,28 +356,33 @@
 
                 tbody.innerHTML = "";
 
-                const statusMap = {
-                    "waiting": `<span class="px-3 py-1 bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-400 rounded-full text-xs font-bold uppercase">Waiting</span>`,
-                    "in_progress": `<span class="px-3 py-1 bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400 rounded-full text-xs font-bold uppercase">In Progress</span>`,
-                    "emergency": `<span class="px-3 py-1 bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400 rounded-full text-xs font-bold uppercase">Emergency</span>`,
+                const statusStyles = {
+                    "waiting": "bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-400",
+                    "called": "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400 animate-pulse",
+                    "consultation": "bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400",
+                    "done": "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400",
+                    "emergency-routed": "bg-red-600 text-white"
                 };
 
-                if (data.length === 0) {
+                if (!data.tokens || data.tokens.length === 0) {
                     tbody.innerHTML = `<tr><td colspan="5" class="px-6 py-4 text-center text-sm text-slate-500">No active patients in queue.</td></tr>`;
                     return;
                 }
 
-                data.forEach(item => {
-                    const badge = statusMap[item.status] || `<span class="px-3 py-1 bg-slate-100 text-slate-700 rounded-full text-xs font-bold uppercase">${item.status}</span>`;
+                data.tokens.forEach(item => {
+                    const style = statusStyles[item.status] || "bg-slate-100 text-slate-700";
+                    const statusLabel = item.status.replace('-', ' ').toUpperCase();
 
                     const tr = document.createElement("tr");
                     tr.className = "hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors";
                     tr.innerHTML = `
                         <td class="px-6 py-4 text-sm font-bold text-primary dark:text-slate-300">${item.token_number}</td>
-                        <td class="px-6 py-4 text-sm dark:text-white">Patient #${item.patient_id}</td>
-                        <td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">${item.chief_complaint || 'General'}</td>
-                        <td class="px-6 py-4 text-sm text-center font-medium">${item.estimated_wait_time_mins}m</td>
-                        <td class="px-6 py-4 text-right">${badge}</td>
+                        <td class="px-6 py-4 text-sm dark:text-white">${item.patient_name_masked}</td>
+                        <td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">${item.department}</td>
+                        <td class="px-6 py-4 text-sm text-center font-medium">${item.wait_min}m</td>
+                        <td class="px-6 py-4 text-right">
+                            <span class="px-3 py-1 rounded-full text-[10px] font-bold ${style}">${statusLabel}</span>
+                        </td>
                     `;
                     tbody.appendChild(tr);
                 });
@@ -342,25 +393,14 @@
         }
 
         document.addEventListener("DOMContentLoaded", () => {
-            loadActiveQueue();
+            checkAuth();
             loadDashboardStats();
-            setInterval(loadActiveQueue, 5000);
-            setInterval(loadDashboardStats, 5000);
+            loadActiveQueue();
+            
+            // Poll every 20 seconds as requested
+            setInterval(loadDashboardStats, 20000);
+            setInterval(loadActiveQueue, 20000);
         });
-
-        async function loadDashboardStats() {
-            try {
-                const res = await fetch("http://localhost:8000/api/dashboard/stats");
-                if (!res.ok) return;
-                const s = await res.json();
-
-                const el = (id) => document.getElementById(id);
-                if (el('stat-total')) el('stat-total').textContent = s.total_today;
-                if (el('stat-wait')) el('stat-wait').textContent = s.avg_wait_time + 'm';
-                if (el('stat-emergency')) el('stat-emergency').textContent = s.emergency_count + ' Alerts';
-                if (el('stat-satisfaction')) el('stat-satisfaction').innerHTML = s.satisfaction_score + '<span class="text-slate-400 text-lg">/5</span>';
-            } catch (e) { console.error("Stats fetch failed", e); }
-        }
     </script>
 </body>
 

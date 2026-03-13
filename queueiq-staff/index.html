@@ -86,7 +86,7 @@
                     <p class="text-slate-500 text-sm">Enter your hospital credentials to access the console</p>
                 </div>
 
-                <form id="login-form" class="space-y-6" onsubmit="event.preventDefault(); simulateLogin();">
+                <form id="login-form" class="space-y-6" onsubmit="event.preventDefault(); handleLogin();">
                     <!-- Global Error Alert (hidden by default) -->
                     <div id="error-alert"
                         class="hidden bg-red-50 border-l-4 border-red-500 p-4 rounded-r flex items-start gap-3">
@@ -111,7 +111,7 @@
                     <div>
                         <div class="flex justify-between items-center mb-2">
                             <label for="password" class="block text-sm font-semibold text-primary">Password</label>
-                            <a href="javascript:void(0)" onclick="alert('Password reset link sent to registered email.')"
+                            <a href="javascript:void(0)" onclick="handleForgotPassword()"
                                 class="text-xs font-semibold text-teal-accent hover:text-primary transition-colors">Forgot
                                 Password?</a>
                         </div>
@@ -160,7 +160,7 @@
                 </form>
 
                 <div class="mt-8 pt-6 border-t border-slate-100">
-                    <button type="button"
+                    <button type="button" onclick="handleSSO()"
                         class="w-full bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 font-medium py-3 rounded-xl transition-colors flex items-center justify-center gap-3">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" class="w-5 h-5">
                             <path fill="#EA4335"
@@ -180,16 +180,74 @@
     </div>
 
     <script>
-        function simulateLogin() {
+        const API_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' 
+            ? 'http://localhost:8000' 
+            : 'https://your-railway-backend.up.railway.app'; // Replace with real Railway URL later
+
+        async function handleLogin() {
+            const employeeId = document.getElementById('employee-id').value;
+            const password = document.getElementById('password').value;
             const loginBtn = document.getElementById('login-btn');
             const loadingBtn = document.getElementById('loading-btn');
+            const errorAlert = document.getElementById('error-alert');
+            const errorMsg = errorAlert.querySelector('p');
 
+            errorAlert.classList.add('hidden');
             loginBtn.classList.add('hidden');
             loadingBtn.classList.remove('hidden');
 
-            setTimeout(() => {
-                window.location.href = 'Main_Dashboard.html';
-            }, 1200);
+            try {
+                const response = await fetch(`${API_URL}/api/v1/auth/login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ employee_id: employeeId, password: password })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    localStorage.setItem('queueiq_token', data.access_token);
+                    localStorage.setItem('staff_name', data.staff_name);
+                    localStorage.setItem('hospital_name', data.hospital_name);
+                    localStorage.setItem('staff_role', data.role);
+                    
+                    window.location.href = 'Main_Dashboard.html';
+                } else {
+                    throw new Error(data.detail || 'Authentication failed');
+                }
+            } catch (err) {
+                errorMsg.innerText = err.message;
+                errorAlert.classList.remove('hidden');
+                loginBtn.classList.remove('hidden');
+                loadingBtn.classList.add('hidden');
+            }
+        }
+
+        async function handleForgotPassword() {
+            const employeeId = document.getElementById('employee-id').value;
+            if (!employeeId) {
+                alert('Please enter your Employee ID first.');
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_URL}/api/v1/auth/forgot-password`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ employee_id: employeeId })
+                });
+                const data = await response.json();
+                alert(data.message || data.detail);
+            } catch (err) {
+                alert('Connection error. Please try again.');
+            }
+        }
+
+        async function handleSSO() {
+            alert('Redirecting to Hospital SSO provider...');
+            const response = await fetch(`${API_URL}/api/v1/auth/sso`, { method: 'POST' });
+            const data = await response.json();
+            console.log(data.message);
         }
     </script>
 </body>

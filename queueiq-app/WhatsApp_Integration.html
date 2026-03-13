@@ -166,8 +166,33 @@
 
     </div>
     <script>
-        function showToast() {
+        const API_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' 
+            ? 'http://localhost:8000' 
+            : 'https://your-railway-backend.up.railway.app';
+
+        async function updatePreferences() {
+            const checkbox = document.querySelector('input[type="checkbox"]');
+            const tokenNum = localStorage.getItem('queueiq_token_number');
+            const isEnabled = checkbox.checked;
+
+            try {
+                const res = await fetch(`${API_URL}/api/v1/queue/toggle-whatsapp?token_number=${tokenNum}&enabled=${isEnabled}`, {
+                    method: 'POST'
+                });
+                const data = await res.json();
+                
+                if (data.status === 'success') {
+                    showToast(isEnabled ? 'WhatsApp Enabled' : 'WhatsApp Disabled');
+                }
+            } catch (e) {
+                console.error("Failed to update WhatsApp preferences", e);
+                alert("Could not update preferences. Please check your connection.");
+            }
+        }
+
+        function showToast(message) {
             const toast = document.getElementById('toast');
+            toast.querySelector('.text-sm.font-semibold').textContent = message;
             toast.classList.remove('-translate-y-10', 'opacity-0');
             toast.classList.add('translate-y-0', 'opacity-100');
 
@@ -183,6 +208,10 @@
                 const tokenSpan = document.querySelector('.text-sm.leading-relaxed span.font-bold');
                 if (tokenSpan) tokenSpan.textContent = '#' + tk.split('-').pop();
             }
+            
+            // Connect the button
+            const btn = document.querySelector('button[onclick="showToast()"]');
+            if (btn) btn.setAttribute('onclick', 'updatePreferences()');
         });
     </script>
 </body>

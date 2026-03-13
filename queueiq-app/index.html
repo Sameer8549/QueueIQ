@@ -257,47 +257,39 @@
             localStorage.setItem('queueiq_language', code);
         }
 
+        const API_URL = "http://localhost:8000"; // Assuming API_URL is defined here based on previous API calls
+
         async function registerPatient() {
             const overlay = document.getElementById('scan-success-overlay');
             if (overlay) overlay.classList.remove('hidden');
             const lang = localStorage.getItem('queueiq_language') || 'en';
 
             try {
-                const patientRes = await fetch("http://localhost:8000/api/queue/patient", {
+                // In production, QR would scan hospital_id=1
+                const res = await fetch(`${API_URL}/api/v1/queue/register`, {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({
-                        whatsapp_number: "whatsapp:+91" + Math.floor(1000000000 + Math.random() * 9000000000),
-                        name: "Patient",
-                        language: lang
+                        hospital_id: 1,
+                        patient_name_masked: "P**** S****",
+                        language_code: lang,
+                        department: "General OPD"
                     })
                 });
-                const patientData = await patientRes.json();
+                
+                if (!res.ok) throw new Error("Registration failed");
+                const data = await res.json();
 
-                const tokenRes = await fetch("http://localhost:8000/api/queue/token", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ patient_id: patientData.id })
-                });
-                const tokenData = await tokenRes.json();
-
-                localStorage.setItem("queueiq_patient_id", patientData.id);
-                localStorage.setItem("queueiq_token_number", tokenData.token_number);
-                localStorage.setItem("queueiq_token_id", tokenData.id);
-                localStorage.setItem("queueiq_wait_time", tokenData.estimated_wait_time_mins);
-                localStorage.setItem("queueiq_queue_position", tokenData.queue_position);
-                localStorage.setItem("queueiq_department", tokenData.department);
-
+                localStorage.setItem("queueiq_token_number", data.token_number);
+                localStorage.setItem("queueiq_department", data.department);
+                
                 setTimeout(() => {
                     window.location.href = 'Token_Registration_Welcome.html';
                 }, 800);
             } catch (e) {
-                console.error("Backend offline, falling back to mock", e);
-                localStorage.setItem("queueiq_token_number", "TK-0047");
-                localStorage.setItem("queueiq_wait_time", "45");
-                localStorage.setItem("queueiq_queue_position", "12");
-                localStorage.setItem("queueiq_department", "General Medicine");
-                setTimeout(() => { window.location.href = 'Token_Registration_Welcome.html'; }, 800);
+                console.error("Backend offline", e);
+                alert("Hospital system is currently offline. Please try again later.");
+                if (overlay) overlay.classList.add('hidden');
             }
         }
 

@@ -1,0 +1,13 @@
+SOP: Fever Management in OPD
+Department: General Medicine
+Severity Indicators:
+- Temp > 103F: High Risk
+- Accompanied by headache and stiff neck: Meningitis Protocol
+- Lasting > 5 days: Malaria/Dengue Screening required
+Diagnostic Steps:
+1. Check SpO2
+2. CBC (Complete Blood Count)
+3. MP/Widal if persistent
+Special Instructions:
+- Advise hydration.
+- Tepid sponging.

@@ -18,11 +18,15 @@ app.add_middleware(
 )
 
 # Include routers
-from routers import queue, whatsapp, dashboard, feedback
+from routers import auth, queue, whatsapp, dashboard, feedback, symptoms
+app.include_router(auth.router)
 app.include_router(queue.router)
 app.include_router(whatsapp.router)
 app.include_router(dashboard.router)
 app.include_router(feedback.router)
+app.include_router(symptoms.router)
+from routers import emergency
+app.include_router(emergency.router)
 
 # ─── WebSocket for real-time queue updates (PRD Module 1) ───
 connected_clients: list[WebSocket] = []

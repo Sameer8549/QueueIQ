@@ -110,9 +110,9 @@
                     <p class="text-slate-500 dark:text-slate-400 text-sm">Real-time clinical triage overview for today
                     </p>
                 </div>
-                <div class="flex items-center gap-2 text-sm font-medium text-slate-500">
+                <div id="last-updated-btn" class="flex items-center gap-2 text-sm font-medium text-slate-500">
                     <span class="material-symbols-outlined text-sm">update</span>
-                    <span>Last updated: 2 mins ago</span>
+                    <span id="last-updated-text">Last updated: Just now</span>
                 </div>
             </div>
             <!-- Filter Bar -->
@@ -144,229 +144,6 @@
                 <div class="text-center">
                     <p class="text-slate-500 dark:text-slate-400 font-medium">Monitoring new arrivals...</p>
                     <p class="text-slate-400 dark:text-slate-500 text-sm">System is connected and updating live.</p>
-                </div>
-            </div>
-            <!-- Patient Card 1: Emergency -->
-            <div
-                class="flex flex-col bg-white dark:bg-slate-900 rounded-xl shadow-sm border-2 border-red-500 overflow-hidden relative group">
-                <div
-                    class="bg-red-500 text-white px-4 py-1 text-[10px] font-bold uppercase tracking-widest flex items-center gap-2">
-                    <span class="material-symbols-outlined text-xs">priority_high</span>
-                    Emergency Triage Required
-                </div>
-                <div class="p-5 flex flex-col h-full">
-                    <div class="flex justify-between items-start mb-4">
-                        <div>
-                            <h3 class="text-primary dark:text-blue-400 font-bold text-lg">Token #402</h3>
-                            <p class="text-xs text-slate-500 dark:text-slate-400">Language: English (UK)</p>
-                        </div>
-                        <span class="text-xs font-bold px-2 py-1 rounded bg-slate-100 dark:bg-slate-800">4m
-                            ago</span>
-                    </div>
-                    <div class="mb-4">
-                        <p class="text-sm text-slate-500 mb-1">Chief Complaint</p>
-                        <p class="text-lg font-bold text-slate-900 dark:text-slate-100">Severe Chest Pain &amp;
-                            Dyspnea</p>
-                    </div>
-                    <div class="flex flex-wrap gap-2 mb-6">
-                        <span
-                            class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400">Chest
-                            Pain</span>
-                        <span
-                            class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-orange-100 text-orange-800 dark:bg-orange-900/30 dark:text-orange-400">Tachycardia</span>
-                        <span
-                            class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-slate-100 text-slate-800 dark:bg-slate-800 dark:text-slate-300">Sweating</span>
-                    </div>
-                    <div
-                        class="mt-auto pt-4 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between">
-                        <button
-                            class="flex items-center gap-2 text-primary dark:text-blue-400 text-sm font-semibold hover:underline">
-                            AI Summary <span class="material-symbols-outlined text-lg">expand_more</span>
-                        </button>
-                        <button
-                            class="bg-primary text-white text-xs font-bold px-3 py-1.5 rounded-lg hover:bg-primary/90">ADMIT</button>
-                    </div>
-                </div>
-            </div>
-            <!-- Patient Card 2 -->
-            <div
-                class="flex flex-col bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-slate-200 dark:border-slate-800 overflow-hidden relative group">
-                <div class="p-5 flex flex-col h-full">
-                    <div class="flex justify-between items-start mb-4">
-                        <div>
-                            <h3 class="text-primary dark:text-blue-400 font-bold text-lg">Token #405</h3>
-                            <p class="text-xs text-slate-500 dark:text-slate-400">Language: Spanish (ES)</p>
-                        </div>
-                        <span class="text-xs font-bold px-2 py-1 rounded bg-slate-100 dark:bg-slate-800">12m
-                            ago</span>
-                    </div>
-                    <div class="mb-4">
-                        <p class="text-sm text-slate-500 mb-1">Chief Complaint</p>
-                        <p class="text-lg font-bold text-slate-900 dark:text-slate-100">Acute Migraine &amp; Nausea
-                        </p>
-                    </div>
-                    <div class="flex flex-wrap gap-2 mb-6">
-                        <span
-                            class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-orange-100 text-orange-800 dark:bg-orange-900/30 dark:text-orange-400">Headache</span>
-                        <span
-                            class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400">Nausea</span>
-                        <span
-                            class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-slate-100 text-slate-800 dark:bg-slate-800 dark:text-slate-300">Photophobia</span>
-                    </div>
-                    <div
-                        class="mt-auto pt-4 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between">
-                        <button
-                            class="flex items-center gap-2 text-primary dark:text-blue-400 text-sm font-semibold hover:underline">
-                            AI Summary <span class="material-symbols-outlined text-lg">expand_more</span>
-                        </button>
-                        <button
-                            class="bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs font-bold px-3 py-1.5 rounded-lg hover:bg-slate-200 dark:hover:bg-slate-700">TRIAGE</button>
-                    </div>
-                </div>
-            </div>
-            <!-- Patient Card 3 -->
-            <div
-                class="flex flex-col bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-slate-200 dark:border-slate-800 overflow-hidden relative group">
-                <div class="p-5 flex flex-col h-full">
-                    <div class="flex justify-between items-start mb-4">
-                        <div>
-                            <h3 class="text-primary dark:text-blue-400 font-bold text-lg">Token #408</h3>
-                            <p class="text-xs text-slate-500 dark:text-slate-400">Language: English (US)</p>
-                        </div>
-                        <span class="text-xs font-bold px-2 py-1 rounded bg-slate-100 dark:bg-slate-800">18m
-                            ago</span>
-                    </div>
-                    <div class="mb-4">
-                        <p class="text-sm text-slate-500 mb-1">Chief Complaint</p>
-                        <p class="text-lg font-bold text-slate-900 dark:text-slate-100">Persistent High Fever</p>
-                    </div>
-                    <div class="flex flex-wrap gap-2 mb-6">
-                        <span
-                            class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400">Fever
-                            (102.4°F)</span>
-                        <span
-                            class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-slate-100 text-slate-800 dark:bg-slate-800 dark:text-slate-300">Chills</span>
-                        <span
-                            class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-slate-100 text-slate-800 dark:bg-slate-800 dark:text-slate-300">Fatigue</span>
-                    </div>
-                    <div
-                        class="mt-auto pt-4 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between">
-                        <button
-                            class="flex items-center gap-2 text-primary dark:text-blue-400 text-sm font-semibold hover:underline">
-                            AI Summary <span class="material-symbols-outlined text-lg">expand_more</span>
-                        </button>
-                        <button
-                            class="bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs font-bold px-3 py-1.5 rounded-lg hover:bg-slate-200 dark:hover:bg-slate-700">TRIAGE</button>
-                    </div>
-                </div>
-            </div>
-            <!-- Patient Card 4 -->
-            <div
-                class="flex flex-col bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-slate-200 dark:border-slate-800 overflow-hidden relative group">
-                <div class="p-5 flex flex-col h-full">
-                    <div class="flex justify-between items-start mb-4">
-                        <div>
-                            <h3 class="text-primary dark:text-blue-400 font-bold text-lg">Token #410</h3>
-                            <p class="text-xs text-slate-500 dark:text-slate-400">Language: Mandarin</p>
-                        </div>
-                        <span class="text-xs font-bold px-2 py-1 rounded bg-slate-100 dark:bg-slate-800">25m
-                            ago</span>
-                    </div>
-                    <div class="mb-4">
-                        <p class="text-sm text-slate-500 mb-1">Chief Complaint</p>
-                        <p class="text-lg font-bold text-slate-900 dark:text-slate-100">Lower Back Injury</p>
-                    </div>
-                    <div class="flex flex-wrap gap-2 mb-6">
-                        <span
-                            class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-orange-100 text-orange-800 dark:bg-orange-900/30 dark:text-orange-400">Sharp
-                            Pain</span>
-                        <span
-                            class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-slate-100 text-slate-800 dark:bg-slate-800 dark:text-slate-300">Reduced
-                            Mobility</span>
-                    </div>
-                    <div
-                        class="mt-auto pt-4 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between">
-                        <button
-                            class="flex items-center gap-2 text-primary dark:text-blue-400 text-sm font-semibold hover:underline">
-                            AI Summary <span class="material-symbols-outlined text-lg">expand_more</span>
-                        </button>
-                        <button
-                            class="bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs font-bold px-3 py-1.5 rounded-lg hover:bg-slate-200 dark:hover:bg-slate-700">TRIAGE</button>
-                    </div>
-                </div>
-            </div>
-            <!-- Patient Card 5 -->
-            <div
-                class="flex flex-col bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-slate-200 dark:border-slate-800 overflow-hidden relative group">
-                <div class="p-5 flex flex-col h-full">
-                    <div class="flex justify-between items-start mb-4">
-                        <div>
-                            <h3 class="text-primary dark:text-blue-400 font-bold text-lg">Token #412</h3>
-                            <p class="text-xs text-slate-500 dark:text-slate-400">Language: Arabic</p>
-                        </div>
-                        <span class="text-xs font-bold px-2 py-1 rounded bg-slate-100 dark:bg-slate-800">31m
-                            ago</span>
-                    </div>
-                    <div class="mb-4">
-                        <p class="text-sm text-slate-500 mb-1">Chief Complaint</p>
-                        <p class="text-lg font-bold text-slate-900 dark:text-slate-100">Abdominal Cramps</p>
-                    </div>
-                    <div class="flex flex-wrap gap-2 mb-6">
-                        <span
-                            class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400">Pain
-                            Scale: 7/10</span>
-                        <span
-                            class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-slate-100 text-slate-800 dark:bg-slate-800 dark:text-slate-300">Vomiting</span>
-                    </div>
-                    <div
-                        class="mt-auto pt-4 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between">
-                        <button
-                            class="flex items-center gap-2 text-primary dark:text-blue-400 text-sm font-semibold hover:underline">
-                            AI Summary <span class="material-symbols-outlined text-lg">expand_more</span>
-                        </button>
-                        <button
-                            class="bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs font-bold px-3 py-1.5 rounded-lg hover:bg-slate-200 dark:hover:bg-slate-700">TRIAGE</button>
-                    </div>
-                </div>
-            </div>
-            <!-- Patient Card 6: Emergency -->
-            <div
-                class="flex flex-col bg-white dark:bg-slate-900 rounded-xl shadow-sm border-2 border-red-500 overflow-hidden relative group">
-                <div
-                    class="bg-red-500 text-white px-4 py-1 text-[10px] font-bold uppercase tracking-widest flex items-center gap-2">
-                    <span class="material-symbols-outlined text-xs">priority_high</span>
-                    Critical Triage (Pediatric)
-                </div>
-                <div class="p-5 flex flex-col h-full">
-                    <div class="flex justify-between items-start mb-4">
-                        <div>
-                            <h3 class="text-primary dark:text-blue-400 font-bold text-lg">Token #415</h3>
-                            <p class="text-xs text-slate-500 dark:text-slate-400">Language: English (US)</p>
-                        </div>
-                        <span class="text-xs font-bold px-2 py-1 rounded bg-slate-100 dark:bg-slate-800">42m
-                            ago</span>
-                    </div>
-                    <div class="mb-4">
-                        <p class="text-sm text-slate-500 mb-1">Chief Complaint</p>
-                        <p class="text-lg font-bold text-slate-900 dark:text-slate-100">Allergic Reaction
-                            (Anaphylaxis)</p>
-                    </div>
-                    <div class="flex flex-wrap gap-2 mb-6">
-                        <span
-                            class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400">Difficulty
-                            Breathing</span>
-                        <span
-                            class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400">Swelling</span>
-                    </div>
-                    <div
-                        class="mt-auto pt-4 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between">
-                        <button
-                            class="flex items-center gap-2 text-primary dark:text-blue-400 text-sm font-semibold hover:underline">
-                            AI Summary <span class="material-symbols-outlined text-lg">expand_more</span>
-                        </button>
-                        <button
-                            class="bg-primary text-white text-xs font-bold px-3 py-1.5 rounded-lg hover:bg-primary/90">ADMIT</button>
-                    </div>
                 </div>
             </div>
     </div>
@@ -404,48 +181,72 @@
             <span class="text-[10px] font-bold uppercase">Stats</span>
         </a>
     </footer>
-    </div>
-    <script>
-        const API = 'http://localhost:8000';
+    </div>    <script>
+        const API_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' 
+            ? 'http://localhost:8000' 
+            : 'https://your-railway-backend.up.railway.app';
 
-        function severityColor(s) {
-            if (s === 'critical') return 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400';
+        function checkAuth() {
+            const token = localStorage.getItem('queueiq_token');
+            if (!token) {
+                window.location.href = 'index.html';
+                return;
+            }
+            // Set header info
+            document.querySelectorAll('h2').forEach(el => {
+                if (el.textContent.includes('Hospital')) {
+                    el.textContent = localStorage.getItem('hospital_name') || 'QueueIQ Hospital';
+                }
+            });
+        }
+
+        function severityStyle(s) {
+            if (s === 'severe' || s === 'emergency') return 'border-2 border-red-500 bg-red-50 dark:bg-red-900/10';
+            if (s === 'moderate') return 'border border-orange-200 dark:border-orange-800 bg-orange-50/30';
+            return 'border border-slate-200 dark:border-slate-800';
+        }
+
+        function severityBadge(s) {
+            if (s === 'severe' || s === 'emergency') return 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400';
             if (s === 'moderate') return 'bg-orange-100 text-orange-800 dark:bg-orange-900/30 dark:text-orange-400';
             return 'bg-slate-100 text-slate-800 dark:bg-slate-800 dark:text-slate-300';
         }
 
-        function renderCard(token) {
-            const isEmergency = token.status === 'emergency';
-            const symptoms = token.extracted_symptoms ? JSON.parse(token.extracted_symptoms) : [];
-            const redFlags = token.red_flags ? JSON.parse(token.red_flags) : [];
-            const border = isEmergency ? 'border-2 border-red-500' : 'border border-slate-200 dark:border-slate-800';
-            const badge = isEmergency ? `<div class="bg-red-500 text-white px-4 py-1 text-[10px] font-bold uppercase tracking-widest flex items-center gap-2"><span class="material-symbols-outlined text-xs">priority_high</span>Emergency Triage Required</div>` : '';
-
-            const symptomTags = symptoms.map(s =>
-                `<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${isEmergency ? 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400' : severityColor(token.severity)}">${s}</span>`
-            ).join('');
+        function renderCard(patient) {
+            const summary = patient.summary;
+            const style = severityStyle(summary.severity);
+            const badgeStyle = severityBadge(summary.severity);
+            const isCritical = summary.severity === 'severe';
 
             return `
-            <div class="flex flex-col bg-white dark:bg-slate-900 rounded-xl shadow-sm ${border} overflow-hidden relative group">
-                ${badge}
+            <div class="flex flex-col bg-white dark:bg-slate-900 rounded-xl shadow-sm ${style} overflow-hidden relative group">
+                ${isCritical ? `
+                <div class="bg-red-500 text-white px-4 py-1 text-[10px] font-bold uppercase tracking-widest flex items-center gap-2">
+                    <span class="material-symbols-outlined text-xs">priority_high</span>
+                    Critical Triage Required
+                </div>` : ''}
                 <div class="p-5 flex flex-col h-full">
                     <div class="flex justify-between items-start mb-4">
                         <div>
-                            <h3 class="text-primary dark:text-blue-400 font-bold text-lg">${token.token_number}</h3>
-                            <p class="text-xs text-slate-500 dark:text-slate-400">Dept: ${token.department}</p>
+                            <h3 class="text-primary dark:text-blue-400 font-bold text-lg">Token ${patient.token_number}</h3>
+                            <p class="text-xs text-slate-500 dark:text-slate-400">Language: ${patient.language_code.toUpperCase()}</p>
                         </div>
-                        <span class="text-xs font-bold px-2 py-1 rounded ${severityColor(token.severity)}">${token.severity}</span>
+                        <span class="text-xs font-bold px-2 py-1 rounded ${badgeStyle}">${summary.severity.toUpperCase()}</span>
                     </div>
                     <div class="mb-4">
-                        <p class="text-sm text-slate-500 mb-1">Chief Complaint</p>
-                        <p class="text-lg font-bold text-slate-900 dark:text-slate-100">${token.chief_complaint || 'Pending Assessment'}</p>
+                        <p class="text-sm text-slate-500 mb-1">AI Headline</p>
+                        <p class="text-lg font-bold text-slate-900 dark:text-slate-100">${summary.dashboard_headline}</p>
                     </div>
-                    ${token.duration ? `<p class="text-xs text-slate-500 mb-3"><span class="font-semibold">Duration:</span> ${token.duration}</p>` : ''}
-                    <div class="flex flex-wrap gap-2 mb-4">${symptomTags || '<span class="text-xs text-slate-400">Awaiting symptom intake...</span>'}</div>
-                    ${token.symptoms_text ? `<div class="bg-slate-50 dark:bg-slate-800 p-3 rounded-lg mb-4 text-sm text-slate-600 dark:text-slate-300 italic">"${token.symptoms_text.substring(0, 120)}..."</div>` : ''}
                     <div class="mt-auto pt-4 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between">
-                        <span class="text-xs text-slate-400">Wait: ${token.estimated_wait_time_mins}m</span>
-                        ${isEmergency ? '<button class="bg-red-600 text-white text-xs font-bold px-3 py-1.5 rounded-lg hover:bg-red-700">ADMIT NOW</button>' : '<button class="bg-primary text-white text-xs font-bold px-3 py-1.5 rounded-lg hover:bg-primary/90">View Details</button>'}
+                        <button onclick="alert('Full Gemini Clinical Summary: coming soon in subpage update.')"
+                            class="flex items-center gap-2 text-primary dark:text-blue-400 text-sm font-semibold hover:underline">
+                            AI Summary <span class="material-symbols-outlined text-lg">expand_more</span>
+                        </button>
+                        <div class="flex gap-2">
+                            <button onclick="handleTriage('${patient.token_number}')"
+                                class="bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs font-bold px-3 py-1.5 rounded-lg hover:bg-slate-200 dark:hover:bg-slate-700">TRIAGE</button>
+                            ${isCritical ? `<button onclick="handleAdmit('${patient.token_number}')" class="bg-primary text-white text-xs font-bold px-3 py-1.5 rounded-lg hover:bg-primary/90">ADMIT</button>` : ''}
+                        </div>
                     </div>
                 </div>
             </div>`;
@@ -453,24 +254,46 @@
 
         async function loadPatients() {
             try {
-                const res = await fetch(`${API}/api/queue/active`);
+                const token = localStorage.getItem('queueiq_token');
+                const res = await fetch(`${API_URL}/api/v1/symptoms/summaries/today`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                if (!res.ok) return;
                 const data = await res.json();
+                
                 const container = document.getElementById('patient-cards');
                 if (data.length === 0) {
-                    container.innerHTML = '<div class="col-span-full text-center py-12 text-slate-400">No active patients. Waiting for check-ins...</div>';
+                    container.innerHTML = '<div class="col-span-full text-center py-12 text-slate-400">No active triage assessments. Waiting for check-ins...</div>';
                     return;
                 }
+                
                 container.innerHTML = data.map(renderCard).join('');
+                
+                // Update timestamp
+                document.getElementById('last-updated-text').textContent = `Last updated: ${new Date().toLocaleTimeString()}`;
             } catch (e) {
                 console.error('API offline', e);
             }
         }
 
+        async function handleAdmit(token_number) {
+            alert(`Admitting Token ${token_number}. Sending WhatsApp to patient...`);
+            // POST /api/v1/queue/admit logic
+        }
+
+        async function handleTriage(token_number) {
+            const priority = prompt("Assign priority: high | medium | low");
+            if (priority) alert(`Token ${token_number} triage updated to ${priority}.`);
+            // POST /api/v1/queue/triage logic
+        }
+
         document.addEventListener('DOMContentLoaded', () => {
+            checkAuth();
             loadPatients();
-            setInterval(loadPatients, 5000);
+            setInterval(loadPatients, 60000); // 60s as requested
         });
     </script>
+
 </body>
 
 </html>

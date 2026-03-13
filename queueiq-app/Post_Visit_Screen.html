@@ -213,6 +213,10 @@
         <span class="font-semibold text-sm">Thanks for your feedback!</span>
     </div>
     <script>
+        const API_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' 
+            ? 'http://localhost:8000' 
+            : 'https://your-railway-backend.up.railway.app';
+
         function selectFeedback(index) {
             const btns = document.querySelectorAll('#feedback-container .feedback-btn');
             btns.forEach((btn, i) => {
@@ -242,7 +246,7 @@
 
             // Submit to API
             const patientId = parseInt(localStorage.getItem('queueiq_patient_id') || '1');
-            fetch('http://localhost:8000/api/feedback/', {
+            fetch(`${API_URL}/api/feedback/`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ patient_id: patientId, rating: index })

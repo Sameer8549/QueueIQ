@@ -276,6 +276,7 @@
                             </div>
                         </div>
                     </div>
+```
                 </div>
             </div>
         </main>
@@ -284,9 +285,16 @@
     <script>
         document.addEventListener('DOMContentLoaded', fetchAnalytics);
 
+        const API_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' 
+            ? 'http://localhost:8000' 
+            : 'https://your-railway-backend.up.railway.app';
+
         async function fetchAnalytics() {
             try {
-                const res = await fetch('http://localhost:8000/api/dashboard/analytics');
+                const token = localStorage.getItem('queueiq_token');
+                const res = await fetch(`${API_URL}/api/v1/dashboard/analytics`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
                 const data = await res.json();
                 const overallAvg = Object.values(data.avg_wait_by_dept).reduce((a, b) => a + b, 0) / Object.keys(data.avg_wait_by_dept).length;
                 const waitTimeEl = document.querySelector('.text-2xl.font-bold.text-primary');

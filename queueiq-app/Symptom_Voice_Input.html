@@ -134,78 +134,105 @@
         </div>
     </nav>
     <script>
-        const API = 'http://localhost:8000';
+        const API_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' 
+            ? 'http://localhost:8000' 
+            : 'https://your-railway-backend.up.railway.app';
+
+        let mediaRecorder;
+        let audioChunks = [];
 
         async function startRecording() {
             const micBtn = document.getElementById('mic-btn');
             const bars = document.getElementById('recording-bars');
-            const transBlock = document.getElementById('transcription-block');
-            const actionBtns = document.getElementById('action-buttons');
-
-            // Visual feedback for mic
-            micBtn.classList.add('bg-red-500');
-            micBtn.classList.remove('bg-primary');
-            bars.classList.remove('opacity-0');
-            bars.classList.add('opacity-100');
-
-            // Hide previous results
-            transBlock.classList.add('hidden');
-            actionBtns.classList.add('hidden');
-
-            // Wait for "recording" simulation
-            await new Promise(r => setTimeout(r, 2500));
-
-            // Stop recording visual
-            micBtn.classList.remove('bg-red-500');
-            micBtn.classList.add('bg-primary');
-            bars.classList.add('opacity-0');
-            bars.classList.remove('opacity-100');
-
-            // Call AI simulate-intake endpoint
-            const tokenId = localStorage.getItem('queueiq_token_id') || '1';
-            try {
-                const res = await fetch(`${API}/webhook/simulate-intake?token_id=${tokenId}`);
-                const data = await res.json();
-
-                // Store AI results
-                localStorage.setItem('queueiq_transcription', data.transcription);
-                localStorage.setItem('queueiq_chief_complaint', data.extraction.chief_complaint);
-                localStorage.setItem('queueiq_symptoms', JSON.stringify(data.extraction.symptoms));
-                localStorage.setItem('queueiq_severity', data.extraction.severity);
-                localStorage.setItem('queueiq_triage', JSON.stringify(data.triage));
-                localStorage.setItem('queueiq_health_brief', JSON.stringify(data.health_brief));
-
-                // Show transcription
-                const transText = transBlock.querySelector('p.text-lg');
-                if (transText) transText.textContent = `"${data.transcription}"`;
-
-                // If emergency detected, show warning
-                if (data.triage.is_emergency) {
-                    transBlock.insertAdjacentHTML('beforeend',
-                        `<div class="mt-3 p-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg flex items-center gap-2">
-                            <span class="material-symbols-outlined text-red-600 text-xl">emergency</span>
-                            <p class="text-sm font-semibold text-red-700 dark:text-red-300">⚠️ Emergency symptoms detected — staff has been alerted</p>
-                        </div>`);
-                }
-            } catch (e) {
-                console.error('AI API offline, using fallback', e);
-                const transText = transBlock.querySelector('p.text-lg');
-                if (transText) transText.textContent = '"I have been having fever and headache for 3 days, with body pains."';
+            
+            if (mediaRecorder && mediaRecorder.state === "recording") {
+                mediaRecorder.stop();
+                return;
             }
 
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                mediaRecorder = new MediaRecorder(stream);
+                audioChunks = [];
+
+                mediaRecorder.ondataavailable = (event) => {
+                    audioChunks.push(event.data);
+                };
+
+                mediaRecorder.onstop = async () => {
+                    const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
+                    processAudio(audioBlob);
+                    stream.getTracks().forEach(track => track.stop());
+                };
+
+                mediaRecorder.start();
+                
+                // UI feedback
+                micBtn.classList.add('bg-red-500', 'animate-pulse');
+                micBtn.classList.remove('bg-primary');
+                bars.classList.remove('opacity-0');
+                
+                // Auto-stop after 10 seconds for testing
+                setTimeout(() => {
+                    if (mediaRecorder.state === "recording") mediaRecorder.stop();
+                }, 10000);
+
+            } catch (err) {
+                console.error("Mic access denied", err);
+                alert("Please allow microphone access to speak your symptoms.");
+            }
+        }
+
+        async function processAudio(blob) {
+            const micBtn = document.getElementById('mic-btn');
+            const bars = document.getElementById('recording-bars');
+            const transBlock = document.getElementById('transcription-block');
+            const actionBtns = document.getElementById('action-buttons');
+            
+            micBtn.classList.remove('bg-red-500', 'animate-pulse');
+            micBtn.classList.add('bg-primary');
+            bars.classList.add('opacity-0');
+
             transBlock.classList.remove('hidden');
-            setTimeout(() => { actionBtns.classList.remove('hidden'); }, 600);
+            transBlock.querySelector('p').textContent = "Analyzing your symptoms...";
+
+            const tokenNum = localStorage.getItem('queueiq_token_number');
+            const formData = new FormData();
+            formData.append('audio', blob, 'symptoms.wav');
+
+            try {
+                const res = await fetch(`${API_URL}/api/v1/symptoms/voice-assessment?token_number=${tokenNum}`, {
+                    method: 'POST',
+                    body: formData
+                });
+                const data = await res.json();
+
+                localStorage.setItem('queueiq_clinical_summary', JSON.stringify(data.summary));
+                localStorage.setItem('queueiq_health_brief', JSON.stringify(data.patient_brief));
+                localStorage.setItem('queueiq_transcription_origin', data.transcription);
+                
+                transBlock.querySelector('p').textContent = `"${data.transcription}"`;
+                
+                if (data.triage.is_emergency) {
+                    showEmergencyAlert();
+                }
+
+                actionBtns.classList.remove('hidden');
+            } catch (e) {
+                console.error("AI analysis failed", e);
+                transBlock.querySelector('p').textContent = "Failed to analyze audio. Please try manual entry.";
+            }
         }
 
-        function confirmSymptoms() {
-            window.location.href = 'Your_Health_Brief.html';
-        }
-
-        function resetRecording() {
-            document.getElementById('transcription-block').classList.add('hidden');
-            document.getElementById('action-buttons').classList.add('hidden');
-            // Remove any emergency warnings
-            document.querySelectorAll('#transcription-block .bg-red-50, #transcription-block .bg-red-900\\/20').forEach(el => el.remove());
+        function showEmergencyAlert() {
+             const transBlock = document.getElementById('transcription-block');
+             if (!transBlock.querySelector('.emergency-warning')) {
+                transBlock.insertAdjacentHTML('beforeend',
+                    `<div class="emergency-warning mt-3 p-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg flex items-center gap-2">
+                        <span class="material-symbols-outlined text-red-600 text-xl">emergency</span>
+                        <p class="text-sm font-semibold text-red-700 dark:text-red-300">⚠️ Emergency symptoms detected — staff alerted</p>
+                    </div>`);
+             }
         }
 
         async function submitManualSymptoms() {
@@ -220,54 +247,47 @@
 
             const transBlock = document.getElementById('transcription-block');
             const actionBtns = document.getElementById('action-buttons');
-
+            
             // Show a loading UI state natively while processing
             const submitBtn = document.querySelector('#manual-entry-section button');
             submitBtn.innerHTML = '<span class="material-symbols-outlined text-sm animate-spin">refresh</span>';
 
-            // Call AI simulate-intake endpoint with manual text
-            const tokenId = localStorage.getItem('queueiq_token_id') || '1';
+            transBlock.classList.remove('hidden');
+            transBlock.querySelector('p').textContent = "Processing...";
+
             try {
-                // In a real app we'd POST the text, here we simulate by fetching
-                const res = await fetch(`${API}/webhook/simulate-intake?token_id=${tokenId}`);
+                const tokenNum = localStorage.getItem('queueiq_token_number');
+                const res = await fetch(`${API_URL}/api/v1/symptoms/assess?token_number=${tokenNum}&transcription=${encodeURIComponent(symptomText)}`, {
+                    method: 'POST'
+                });
                 const data = await res.json();
+                
+                localStorage.setItem('queueiq_clinical_summary', JSON.stringify(data.summary));
+                localStorage.setItem('queueiq_transcription_origin', symptomText);
 
-                // Override transcription with their manual text
-                data.transcription = symptomText;
-
-                // Store AI results
-                localStorage.setItem('queueiq_transcription', data.transcription);
-                localStorage.setItem('queueiq_chief_complaint', data.extraction.chief_complaint);
-                localStorage.setItem('queueiq_symptoms', JSON.stringify(data.extraction.symptoms));
-                localStorage.setItem('queueiq_severity', data.extraction.severity);
-                localStorage.setItem('queueiq_triage', JSON.stringify(data.triage));
-                localStorage.setItem('queueiq_health_brief', JSON.stringify(data.health_brief));
-
-                // Show transcription block modified for manual entry
-                const transText = transBlock.querySelector('p.text-lg');
-                if (transText) transText.textContent = `"${data.transcription}"`;
-
+                transBlock.querySelector('p').textContent = `"${symptomText}"`;
                 transBlock.querySelector('.text-xs.font-semibold').textContent = "SYMPTOM ANALYSIS";
 
-                // If emergency detected, show warning
-                if (data.triage.is_emergency && !transBlock.querySelector('.bg-red-50')) {
-                    transBlock.insertAdjacentHTML('beforeend',
-                        `<div class="mt-3 p-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg flex items-center gap-2">
-                            <span class="material-symbols-outlined text-red-600 text-xl">emergency</span>
-                            <p class="text-sm font-semibold text-red-700 dark:text-red-300">⚠️ Emergency symptoms detected — staff has been alerted</p>
-                        </div>`);
+                if (data.triage.is_emergency && !transBlock.querySelector('.emergency-warning')) {
+                    showEmergencyAlert();
                 }
+
+                actionBtns.classList.remove('hidden');
+                document.getElementById('manual-entry-section').classList.add('hidden');
             } catch (e) {
-                console.error('AI API offline, using fallback', e);
+                console.error("Manual submission failed", e);
+                transBlock.querySelector('p').textContent = "Failed to process manual entry.";
+            } finally {
+                submitBtn.innerHTML = '<span class="material-symbols-outlined text-sm">send</span>';
             }
+        }
 
-            submitBtn.innerHTML = '<span class="material-symbols-outlined text-sm">send</span>';
+        function confirmSymptoms() {
+            window.location.href = 'Your_Health_Brief.html';
+        }
 
-            // Hide the manual section to show the confirmation
-            document.getElementById('manual-entry-section').classList.add('hidden');
-
-            transBlock.classList.remove('hidden');
-            setTimeout(() => { actionBtns.classList.remove('hidden'); }, 300);
+        function resetRecording() {
+            location.reload();
         }
     </script>
 </body>
