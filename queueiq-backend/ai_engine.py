@@ -3,21 +3,7 @@ import json
 import google.generativeai as genai
 from dotenv import load_dotenv
 
-# Optional local AI models (heavy)
-try:
-    import whisper
-    whisper_model = whisper.load_model("base")
-except Exception as e:
-    print(f"Whisper warning: {e}")
-    whisper_model = None
-
-try:
-    from transformers import AutoModelForSeq2SeqLM, AutoTokenizer
-    # IndicTrans2 setup would happen here
-    # tokenizer = AutoTokenizer.from_pretrained("ai4bharat/indictrans2-en-indic-1b", trust_remote_code=True)
-    # it2_model = AutoModelForSeq2SeqLM.from_pretrained("ai4bharat/indictrans2-en-indic-1b", trust_remote_code=True)
-except Exception as e:
-    print(f"Transformers warning: {e}")
+# AI logic handled via Gemini API (Cloud-First)
 
 load_dotenv()
 
@@ -143,24 +129,35 @@ class AIEngine:
             return json.loads(response.text.strip().replace('```json', '').replace('```', ''))
     @staticmethod
     async def transcribe_and_translate(audio_path: str, language_code: str = "en"):
-        # 1. ASR using Whisper
-        if whisper_model:
-            result = whisper_model.transcribe(audio_path)
-            transcription = result["text"]
-        else:
-            transcription = "Simulated: Patient reports acute abdominal pain since morning."
+        if not model:
+            return "AI Engine Offline", "AI Engine Offline"
 
-        # 2. Translation using IndicTrans2 (Simulated fallback)
-        # If language is not English, use Gemini as a high-quality translator + reasoning engine
-        if language_code != "en" and model:
-            translate_prompt = f"Translate the following medical complaint from {language_code} to English: '{transcription}'"
-            try:
-                translated = model.generate_content(translate_prompt)
-                return translated.text.strip(), transcription
-            except:
-                pass
-        
-        return transcription, transcription # (English, Original)
+        try:
+            # 1. Upload file to Gemini for multimodal processing
+            # For small files, we can also pass the content directly, 
+            # but using the File API is cleaner for production.
+            uploaded_file = genai.upload_file(path=audio_path)
+            
+            prompt = f"""
+            Transcribe the following audio file. 
+            The audio is likely a medical complaint in {language_code}.
+            Return strict JSON:
+            {{
+              "original_transcription": "<Transcription in {language_code}>",
+              "english_translation": "<Translation in English>"
+            }}
+            """
+            
+            response = model.generate_content([prompt, uploaded_file])
+            data = json.loads(response.text.strip().replace('```json', '').replace('```', ''))
+            
+            # Clean up: genai.delete_file(uploaded_file.name)
+            
+            return data.get("english_translation"), data.get("original_transcription")
+            
+        except Exception as e:
+            print(f"Gemini Transcription Error: {e}")
+            return f"Transcribing failed: {str(e)}", "Transcribing failed"
 
     @staticmethod
     async def send_whatsapp_message(to_number: str, message: str):

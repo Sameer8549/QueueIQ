@@ -12,18 +12,11 @@ redis
 # Messaging
 twilio
 
-# AI & LLM
+# AI & LLM (Cloud-First via Gemini)
 google-generativeai
-openai-whisper
-transformers
-torch
-sentence-transformers
 chromadb
-librosa
-soundfile
-IndicTrans2-python-wrapper
-# (Note: IndicTrans2 might need custom installation, but we'll include the placeholder)
-api-ffmpeg
 pyjwt
 passlib[bcrypt]
 python-multipart
+# audio-processing
+pydub
