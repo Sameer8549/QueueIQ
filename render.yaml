@@ -1,24 +1,21 @@
 services:
   # Patient App Frontend
-  # NOTE: If you get "Dockerfile not found", ensure "Root Directory" is set to "queueiq-app"
   - type: web
     name: queueiq-app
     env: static
     buildCommand: "npm install && npm run build"
-    publishPath: queueiq-app/dist
+    publishPath: dist
     rootDir: queueiq-app
 
   # Staff Portal Frontend
-  # NOTE: If you get "Dockerfile not found", ensure "Root Directory" is set to "queueiq-staff"
   - type: web
     name: queueiq-staff
     env: static
     buildCommand: "npm install && npm run build"
-    publishPath: queueiq-staff/dist
+    publishPath: dist
     rootDir: queueiq-staff
 
   # Backend Service
-  # NOTE: If you get "Dockerfile not found", ensure "Root Directory" is set to "queueiq-backend"
   - type: web
     name: queueiq-backend
     env: python
