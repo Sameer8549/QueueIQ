@@ -1,16 +1,18 @@
 services:
   # Patient App Frontend
-  - type: static_site
+  - type: web
     name: queueiq-app
+    env: static
     buildCommand: "npm install && npm run build"
-    publishPath: dist
+    staticPublishPath: dist
     rootDir: queueiq-app
 
   # Staff Portal Frontend
-  - type: static_site
+  - type: web
     name: queueiq-staff
+    env: static
     buildCommand: "npm install && npm run build"
-    publishPath: dist
+    staticPublishPath: dist
     rootDir: queueiq-staff
 
   # Backend Service
