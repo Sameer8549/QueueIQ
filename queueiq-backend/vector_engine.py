@@ -55,4 +55,10 @@ class VectorEngine:
 
 # Global instance
 vector_engine = VectorEngine()
-vector_engine.seed_knowledge("./knowledge_base")
+
+def init_vector_store():
+    """Initializes and seeds the vector store. Called on app startup."""
+    try:
+        vector_engine.seed_knowledge("./knowledge_base")
+    except Exception as e:
+        print(f"Vector Store Initialization Warning: {e}")

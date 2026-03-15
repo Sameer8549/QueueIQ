@@ -1,0 +1,42 @@
+https://queueiq-staff-3q4sxb35m-abdulsameer63167-gmailcoms-projects.vercel.app
+https://queueiq-orv3dhrfa-abdulsameer63167-gmailcoms-projects.vercel.app
+https://queue-iq-tlg5-h574l311x-abdulsameer63167-gmailcoms-projects.vercel.app
+https://queue-iq-llox-w9sz17zo6-abdulsameer63167-gmailcoms-projects.vercel.app
+https://queue-iq-ik6h-mdwx5h7wz-abdulsameer63167-gmailcoms-projects.vercel.app
+https://queue-q3fs216qg-abdulsameer63167-gmailcoms-projects.vercel.app
+https://queue-iq-llox-n8zegw9rk-abdulsameer63167-gmailcoms-projects.vercel.app
+https://queue-iq-tlg5-c797gkika-abdulsameer63167-gmailcoms-projects.vercel.app
+https://queue-aaz65qb71-abdulsameer63167-gmailcoms-projects.vercel.app
+https://queue-iq-ik6h-iwnngyam3-abdulsameer63167-gmailcoms-projects.vercel.app
+https://queue-iq-ik6h-p6tl7ot4y-abdulsameer63167-gmailcoms-projects.vercel.app
+https://queue-iq-llox-65ezm02o5-abdulsameer63167-gmailcoms-projects.vercel.app
+https://queue-ieivd0g15-abdulsameer63167-gmailcoms-projects.vercel.app
+https://queue-iq-tlg5-hve67kq1n-abdulsameer63167-gmailcoms-projects.vercel.app
+https://queue-na8q2lobz-abdulsameer63167-gmailcoms-projects.vercel.app
+https://queue-iq-ik6h-dj7gqssoi-abdulsameer63167-gmailcoms-projects.vercel.app
+https://queue-iq-llox-ogc4li77j-abdulsameer63167-gmailcoms-projects.vercel.app
+https://queue-iq-tlg5-k4qmpe5zo-abdulsameer63167-gmailcoms-projects.vercel.app
+https://queue-iq-llox-qu1qn2veb-abdulsameer63167-gmailcoms-projects.vercel.app
+https://queue-iq-ik6h-fwec80gb7-abdulsameer63167-gmailcoms-projects.vercel.app
+  source                                                                    url                                                                         age    
+  queueiq-staff-3q4sxb35m-abdulsameer63167-gmailcoms-projects.vercel.app    queueiq-staff.vercel.app                                                    10m    
+  queueiq-staff-3q4sxb35m-abdulsameer63167-gmailcoms-projects.vercel.app    queueiq-staff-abdulsameer63167-gmailcoms-projects.vercel.app                10m    
+  queueiq-orv3dhrfa-abdulsameer63167-gmailcoms-projects.vercel.app          queueiq-app.vercel.app                                                      11m    
+  queueiq-orv3dhrfa-abdulsameer63167-gmailcoms-projects.vercel.app          queueiq-app-abdulsameer63167-gmailcoms-projects.vercel.app                  11m    
+  queue-iq-llox-w9sz17zo6-abdulsameer63167-gmailcoms-projects.vercel.app    queue-iq-llox-abdulsameer63167-gmailcoms-projects.vercel.app                 2d    
+  queue-iq-llox-w9sz17zo6-abdulsameer63167-gmailcoms-projects.vercel.app    queue-iq-llox.vercel.app                                                     2d    
+  queue-iq-llox-w9sz17zo6-abdulsameer63167-gmailcoms-projects.vercel.app    queue-iq-llox-git-master-abdulsameer63167-gmailcoms-projects.vercel.app      2d    
+  queue-iq-ik6h-mdwx5h7wz-abdulsameer63167-gmailcoms-projects.vercel.app    queue-iq-ik6h.vercel.app                                                     2d    
+  queue-iq-ik6h-mdwx5h7wz-abdulsameer63167-gmailcoms-projects.vercel.app    queue-iq-ik6h-abdulsameer63167-gmailcoms-projects.vercel.app                 2d    
+  queue-iq-tlg5-h574l311x-abdulsameer63167-gmailcoms-projects.vercel.app    queue-iq-tlg5.vercel.app                                                     2d    
+  queue-iq-tlg5-h574l311x-abdulsameer63167-gmailcoms-projects.vercel.app    queue-iq-tlg5-abdulsameer63167-gmailcoms-projects.vercel.app                 2d    
+  queue-iq-tlg5-h574l311x-abdulsameer63167-gmailcoms-projects.vercel.app    queue-iq-tlg5-git-master-abdulsameer63167-gmailcoms-projects.vercel.app      2d    
+  queue-iq-ik6h-mdwx5h7wz-abdulsameer63167-gmailcoms-projects.vercel.app    queue-iq-ik6h-git-master-abdulsameer63167-gmailcoms-projects.vercel.app      2d    
+  queue-q3fs216qg-abdulsameer63167-gmailcoms-projects.vercel.app            queue-iq-abdulsameer63167-gmailcoms-projects.vercel.app                      2d    
+  queue-q3fs216qg-abdulsameer63167-gmailcoms-projects.vercel.app            queue-iq.vercel.app                                                          2d    
+  queue-q3fs216qg-abdulsameer63167-gmailcoms-projects.vercel.app            queue-iq-git-master-abdulsameer63167-gmailcoms-projects.vercel.app           2d    
+  v0-creative-portfolio-4f-hzjlvom7u.vercel.app                             v0-creative-portfolio-4f.vercel.app                                        187d    
+  v0-creative-portfolio-4f-hzjlvom7u.vercel.app                             v0-creative-portfolio-4f-abdulsameer63167-gmailcoms-projects.vercel.app    187d    
+  v0-portfolio-y8fhltd6teh-rkyca5tw8.vercel.app                             kfxkwuju6d0cfa2j.vercel.app                                                414d    
+  v0-portfolio-y8fhltd6teh-8rt4657v5.vercel.app                             gnarecbhfkndkpth.vercel.app                                                414d    
+

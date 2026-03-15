@@ -8,6 +8,13 @@ models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI(title="QueueIQ API", version="2.0.0", description="AI-Powered Hospital Queue Intelligence")
 
+@app.on_event("startup")
+async def startup_event():
+    from vector_engine import init_vector_store
+    import threading
+    # Run seeding in a background thread to not block the event loop
+    threading.Thread(target=init_vector_store, daemon=True).start()
+
 # CORS — allow Vite dev server
 app.add_middleware(
     CORSMiddleware,
