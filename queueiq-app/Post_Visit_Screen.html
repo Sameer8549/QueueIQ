@@ -213,9 +213,9 @@
         <span class="font-semibold text-sm">Thanks for your feedback!</span>
     </div>
     <script>
-        const API_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' 
-            ? 'http://localhost:8000' 
-            : 'https://your-backend-api.com';
+        const API_URL = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1" 
+            ? "http://localhost:8000" 
+            : "https://queueiq-production.up.railway.app";
 
         function selectFeedback(index) {
             const btns = document.querySelectorAll('#feedback-container .feedback-btn');

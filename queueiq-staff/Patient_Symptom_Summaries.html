@@ -182,9 +182,10 @@
         </a>
     </footer>
     </div>    <script>
-        const API_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' 
-            ? 'http://localhost:8000' 
-            : 'https://your-backend-api.com'; // Updated to demo internal/public consistency
+        const API_URL = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1" 
+            ? "http://localhost:8000" 
+            : "https://queueiq-production.up.railway.app";
+ // Updated to demo internal/public consistency
 
         function checkAuth() {
             const token = localStorage.getItem('queueiq_token');
