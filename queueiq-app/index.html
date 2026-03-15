@@ -264,15 +264,33 @@
 
         const API_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' 
             ? 'http://localhost:8000' 
-            : 'https://queueiq-production123.up.railway.app'; // Replace with your actual production API URL
+            : 'https://queueiq-production123.up.railway.app';
+
+        const USE_OFFLINE_DEMO = true; // Force demo mode for this hackathon version
 
         async function registerPatient() {
             const overlay = document.getElementById('scan-success-overlay');
             if (overlay) overlay.classList.remove('hidden');
             const lang = localStorage.getItem('queueiq_language') || 'en';
 
+            if (USE_OFFLINE_DEMO) {
+                console.log("Using Offline Demo Mode");
+                const mockData = {
+                    token_number: "Q-" + Math.floor(Math.random() * 900 + 100),
+                    department: "General OPD",
+                    wait_time: 15
+                };
+                localStorage.setItem("queueiq_token_number", mockData.token_number);
+                localStorage.setItem("queueiq_department", mockData.department);
+                localStorage.setItem("offline_mode", "true");
+                
+                setTimeout(() => {
+                    window.location.href = 'Token_Registration_Welcome.html';
+                }, 800);
+                return;
+            }
+
             try {
-                // In production, QR would scan hospital_id=1
                 const res = await fetch(`${API_URL}/api/v1/queue/register`, {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
@@ -295,8 +313,10 @@
                 }, 800);
             } catch (e) {
                 console.error("Backend offline", e);
-                alert("Hospital system is currently offline. Please try again later.");
-                if (overlay) overlay.classList.add('hidden');
+                // Fallback to demo mode automatically
+                alert("Hospital system is in Maintenance Mode. Starting Offline Demo...");
+                localStorage.setItem("offline_mode", "true");
+                registerPatient(); 
             }
         }
 

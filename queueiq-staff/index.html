@@ -192,19 +192,35 @@
             const loadingBtn = document.getElementById('loading-btn');
             const errorAlert = document.getElementById('error-alert');
 
-            errorAlert.classList.add('hidden');
-            loginBtn.classList.add('hidden');
-            loadingBtn.classList.remove('hidden');
+            // Demo Mode Bypass
+            if (employeeId.toLowerCase() === 'demo') {
+                setTimeout(() => {
+                    localStorage.setItem('queueiq_token', 'offline_demo_token');
+                    localStorage.setItem('staff_name', 'Dr. Demir');
+                    localStorage.setItem('hospital_name', 'St. Jude General');
+                    localStorage.setItem('staff_role', 'doctor');
+                    localStorage.setItem('offline_mode', 'true');
+                    window.location.href = 'Main_Dashboard.html';
+                }, 800);
+                return;
+            }
 
-            // Dummy Login bypassing backend
-            setTimeout(() => {
-                localStorage.setItem('queueiq_token', 'mock_token_123');
-                localStorage.setItem('staff_name', 'Dr. Demo');
-                localStorage.setItem('hospital_name', 'Demo Hospital');
-                localStorage.setItem('staff_role', 'doctor');
-                
+            try {
+                const res = await fetch(`${API_URL}/api/v1/auth/login`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ employee_id: employeeId, password: password })
+                });
+                if (!res.ok) throw new Error("Login failed");
+                const data = await res.json();
+                localStorage.setItem('queueiq_token', data.access_token);
                 window.location.href = 'Main_Dashboard.html';
-            }, 800);
+            } catch (e) {
+                console.error("Login failed", e);
+                errorAlert.classList.remove('hidden');
+                loginBtn.classList.remove('hidden');
+                loadingBtn.classList.add('hidden');
+            }
         }
 
         async function handleForgotPassword() {
