@@ -120,6 +120,10 @@ class AIEngine:
         try:
             response = model.generate_content(system_prompt + "\n\n" + user_prompt)
             return json.loads(response.text.strip().replace('```json', '').replace('```', ''))
+        except Exception as e:
+            print(f"Operational Insights Error: {e}")
+            return {"insight": "Operations stable.", "recommendation": "Monitor queue flow."}
+
     @staticmethod
     async def transcribe_and_translate(audio_path: str, language_code: str = "en"):
         if not model:
