@@ -350,6 +350,21 @@
         }
 
         async function loadDashboardStats() {
+            if (localStorage.getItem('offline_mode') === 'true') {
+                const s = {
+                    patients_today: 42,
+                    avg_wait_min: 18,
+                    emergency_count: 2,
+                    satisfaction_score: 4.8
+                };
+                const el = (id) => document.getElementById(id);
+                if (el('stat-total')) el('stat-total').textContent = s.patients_today;
+                if (el('stat-wait')) el('stat-wait').textContent = s.avg_wait_min + 'm';
+                if (el('stat-emergency')) el('stat-emergency').textContent = s.emergency_count;
+                if (el('stat-satisfaction')) el('stat-satisfaction').innerHTML = s.satisfaction_score + '<span class="text-slate-400 text-lg">/5</span>';
+                return;
+            }
+
             try {
                 const token = localStorage.getItem('queueiq_token');
                 const res = await fetch(`${API_URL}/api/v1/dashboard/overview`, {
@@ -372,6 +387,19 @@
         }
 
         async function loadActiveQueue() {
+            if (localStorage.getItem('offline_mode') === 'true') {
+                const mockData = {
+                    tokens: [
+                        { token_number: "Q-104", patient_name_masked: "A**** R****", status: "consultation", department: "General OPD", wait_min: 12 },
+                        { token_number: "Q-105", patient_name_masked: "M**** K****", status: "emergency-routed", department: "Cardiology", wait_min: 5 },
+                        { token_number: "Q-106", patient_name_masked: "B**** S****", status: "waiting", department: "Pediatrics", wait_min: 25 },
+                        { token_number: "Q-107", patient_name_masked: "J**** D****", status: "called", department: "General OPD", wait_min: 18 }
+                    ]
+                };
+                renderQueue(mockData);
+                return;
+            }
+
             try {
                 const token = localStorage.getItem('queueiq_token');
                 const res = await fetch(`${API_URL}/api/v1/queue/live`, {
@@ -379,55 +407,57 @@
                 });
                 if (!res.ok) return;
                 const data = await res.json();
-
-                const tbody = document.getElementById("active-queue-table");
-                if (!tbody) return;
-
-                tbody.innerHTML = "";
-
-                const statusStyles = {
-                    "waiting": "bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-400",
-                    "called": "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400 animate-pulse",
-                    "consultation": "bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400",
-                    "done": "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400",
-                    "emergency-routed": "bg-red-600 text-white"
-                };
-
-                if (!data.tokens || data.tokens.length === 0) {
-                    tbody.innerHTML = `<tr><td colspan="5" class="px-6 py-4 text-center text-sm text-slate-500">No active patients in queue.</td></tr>`;
-                    return;
-                }
-
-                data.tokens.forEach(item => {
-                    const isEmergency = item.status === "emergency-routed";
-                    const style = statusStyles[item.status] || "bg-slate-100 text-slate-700";
-                    const statusLabel = item.status.replace('-', ' ').toUpperCase();
-
-                    const tr = document.createElement("tr");
-                    tr.className = `hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors ${isEmergency ? 'emergency-glow' : ''}`;
-                    tr.innerHTML = `
-                        <td class="px-6 py-4 text-sm font-bold text-primary dark:text-slate-300">${item.token_number}</td>
-                        <td class="px-6 py-4 text-sm dark:text-white">
-                            <div class="flex flex-col">
-                                <span>${item.patient_name_masked}</span>
-                                ${isEmergency ? '<span class="text-[9px] text-red-500 font-bold uppercase tracking-tighter">🚨 High Priority Triage</span>' : ''}
-                            </div>
-                        </td>
-                        <td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">${item.department}</td>
-                        <td class="px-6 py-4 text-sm text-center font-medium">${item.wait_min}m</td>
-                        <td class="px-6 py-4 text-right">
-                            <span class="px-3 py-1 rounded-full text-[10px] font-bold ${style}">${statusLabel}</span>
-                        </td>
-                    `;
-                    tbody.appendChild(tr);
-
-                    // Add to activity feed if not already there
-                    updateActivityFeed(item);
-                });
-
+                renderQueue(data);
             } catch (e) {
                 console.error("Queue fetch failed", e);
             }
+        }
+
+        function renderQueue(data) {
+            const tbody = document.getElementById("active-queue-table");
+            if (!tbody) return;
+
+            tbody.innerHTML = "";
+
+            const statusStyles = {
+                "waiting": "bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-400",
+                "called": "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400 animate-pulse",
+                "consultation": "bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400",
+                "done": "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400",
+                "emergency-routed": "bg-red-600 text-white"
+            };
+
+            if (!data.tokens || data.tokens.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="5" class="px-6 py-4 text-center text-sm text-slate-500">No active patients in queue.</td></tr>`;
+                return;
+            }
+
+            data.tokens.forEach(item => {
+                const isEmergency = item.status === "emergency-routed";
+                const style = statusStyles[item.status] || "bg-slate-100 text-slate-700";
+                const statusLabel = item.status.replace('-', ' ').toUpperCase();
+
+                const tr = document.createElement("tr");
+                tr.className = `hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors ${isEmergency ? 'emergency-glow' : ''}`;
+                tr.innerHTML = `
+                    <td class="px-6 py-4 text-sm font-bold text-primary dark:text-slate-300">${item.token_number}</td>
+                    <td class="px-6 py-4 text-sm dark:text-white">
+                        <div class="flex flex-col">
+                            <span>${item.patient_name_masked}</span>
+                            ${isEmergency ? '<span class="text-[9px] text-red-500 font-bold uppercase tracking-tighter">🚨 High Priority Triage</span>' : ''}
+                        </div>
+                    </td>
+                    <td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">${item.department}</td>
+                    <td class="px-6 py-4 text-sm text-center font-medium">${item.wait_min}m</td>
+                    <td class="px-6 py-4 text-right">
+                        <span class="px-3 py-1 rounded-full text-[10px] font-bold ${style}">${statusLabel}</span>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+
+                // Add to activity feed if not already there
+                updateActivityFeed(item);
+            });
         }
 
         let seenTokens = new Set();
