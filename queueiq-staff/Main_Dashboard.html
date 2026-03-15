@@ -330,7 +330,7 @@
     <script>
         const API_URL = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1" 
             ? "http://localhost:8000" 
-            : "https://queueiq-production.up.railway.app";
+            : "https://queueiq-production.up.railway.app:8080";
 
         function checkAuth() {
             const token = localStorage.getItem('queueiq_token');
