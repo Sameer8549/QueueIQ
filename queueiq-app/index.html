@@ -206,6 +206,11 @@
                     <span class="material-symbols-outlined text-accent-gold">keyboard</span>
                     Enter Token Manually
                 </button>
+                <button onclick="quickDemo()" 
+                    class="w-full mt-2 flex items-center justify-center gap-2 bg-accent-gold hover:bg-accent-gold/90 text-primary font-bold py-3 px-6 rounded-xl transition-all shadow-md active:scale-[0.98]">
+                    <span class="material-symbols-outlined">bolt</span>
+                    Quick Demo Setup
+                </button>
                 <p
                     class="text-center text-primary/50 dark:text-slate-500 text-[10px] mt-4 font-medium uppercase tracking-widest">
                     Secured by QueueIQ Medical Systems
@@ -257,7 +262,9 @@
             localStorage.setItem('queueiq_language', code);
         }
 
-        const API_URL = "http://localhost:8000"; // Assuming API_URL is defined here based on previous API calls
+        const API_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' 
+            ? 'http://localhost:8000' 
+            : 'https://queueiq.railway.internal'; // Default to internal or public Railway URL
 
         async function registerPatient() {
             const overlay = document.getElementById('scan-success-overlay');
@@ -295,6 +302,11 @@
 
         function simulateScan() { registerPatient(); }
         function manualEntry() { registerPatient(); }
+
+        function quickDemo() {
+            localStorage.setItem('queueiq_language', 'en');
+            registerPatient();
+        }
     </script>
 </body>
 

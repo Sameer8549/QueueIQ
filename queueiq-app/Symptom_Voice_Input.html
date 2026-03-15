@@ -82,6 +82,20 @@
             <div class="w-1 bg-accent-gold h-5 rounded-full animate-bounce"></div>
             <div class="w-1 bg-accent-gold h-9 rounded-full animate-pulse"></div>
         </div>
+        <div class="w-full mb-6">
+            <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3 text-center">Demo Preset Scenarios</p>
+            <div class="flex flex-wrap gap-2 justify-center">
+                <button onclick="usePreset('Critical: I have severe chest pain and breathlessness building up since an hour.')" 
+                    class="px-3 py-1.5 bg-red-50 text-red-700 border border-red-200 rounded-lg text-xs font-bold hover:bg-red-100 transition-colors">🚨 Chest Pain</button>
+                <button onclick="usePreset('Help, my child has very high fever and has been vomiting since morning.')" 
+                    class="px-3 py-1.5 bg-orange-50 text-orange-700 border border-orange-200 rounded-lg text-xs font-bold hover:bg-orange-100 transition-colors">🔥 High Fever</button>
+                <button onclick="usePreset('I have a mild cough and cold for 2 days but no fever.')" 
+                    class="px-3 py-1.5 bg-blue-50 text-blue-700 border border-blue-200 rounded-lg text-xs font-bold hover:bg-blue-100 transition-colors">💧 Mild Cold</button>
+                <button onclick="usePreset('My left leg is swollen and very painful after a fall.')" 
+                    class="px-3 py-1.5 bg-slate-50 text-slate-700 border border-slate-200 rounded-lg text-xs font-bold hover:bg-slate-100 transition-colors">🦴 Injury</button>
+            </div>
+        </div>
+
         <div id="transcription-block"
             class="hidden w-full bg-white dark:bg-slate-800 p-6 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm mb-8 transition-all duration-500">
             <div class="flex items-center gap-2 mb-3">
@@ -288,6 +302,12 @@
 
         function resetRecording() {
             location.reload();
+        }
+
+        async function usePreset(text) {
+            const manualTextarea = document.getElementById('manual-symptoms');
+            manualTextarea.value = text;
+            submitManualSymptoms();
         }
     </script>
 </body>

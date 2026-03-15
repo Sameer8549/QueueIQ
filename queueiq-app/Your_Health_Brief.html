@@ -269,6 +269,16 @@
             const v = n % 100;
             return n + (s[(v - 20) % 10] || s[v] || s[0]);
         }
+
+        // Live Hackathon Polling
+        setInterval(() => {
+            const pos = localStorage.getItem('queueiq_queue_position') || '12';
+            const wait = localStorage.getItem('queueiq_wait_time') || '30';
+            const qText = document.getElementById('health-queue-text');
+            if (qText) qText.innerHTML = `${ordinal(parseInt(pos))} in line • <span class="text-accent-gold">Est. ${wait} min</span>`;
+            const bar = document.getElementById('health-queue-bar');
+            if (bar) bar.style.width = Math.min(85, (1 - parseInt(wait) / 120) * 100) + '%';
+        }, 3000);
     </script>
 </body>
 
