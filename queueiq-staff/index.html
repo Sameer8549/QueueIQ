@@ -190,37 +190,20 @@
             const loginBtn = document.getElementById('login-btn');
             const loadingBtn = document.getElementById('loading-btn');
             const errorAlert = document.getElementById('error-alert');
-            const errorMsg = errorAlert.querySelector('p');
 
             errorAlert.classList.add('hidden');
             loginBtn.classList.add('hidden');
             loadingBtn.classList.remove('hidden');
 
-            try {
-                const response = await fetch(`${API_URL}/api/v1/auth/login`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ employee_id: employeeId, password: password })
-                });
-
-                const data = await response.json();
-
-                if (response.ok) {
-                    localStorage.setItem('queueiq_token', data.access_token);
-                    localStorage.setItem('staff_name', data.staff_name);
-                    localStorage.setItem('hospital_name', data.hospital_name);
-                    localStorage.setItem('staff_role', data.role);
-                    
-                    window.location.href = 'Main_Dashboard.html';
-                } else {
-                    throw new Error(data.detail || 'Authentication failed');
-                }
-            } catch (err) {
-                errorMsg.innerText = err.message;
-                errorAlert.classList.remove('hidden');
-                loginBtn.classList.remove('hidden');
-                loadingBtn.classList.add('hidden');
-            }
+            // Dummy Login bypassing backend
+            setTimeout(() => {
+                localStorage.setItem('queueiq_token', 'mock_token_123');
+                localStorage.setItem('staff_name', 'Dr. Demo');
+                localStorage.setItem('hospital_name', 'Demo Hospital');
+                localStorage.setItem('staff_role', 'doctor');
+                
+                window.location.href = 'Main_Dashboard.html';
+            }, 800);
         }
 
         async function handleForgotPassword() {
