@@ -61,8 +61,9 @@ class AIEngine:
         NEVER include drug names or treatment recommendations.
         """
         # RAG: Retrieve relevant SOP context
-        from vector_engine import vector_engine
-        sop_context = vector_engine.query(transcription)
+        from vector_engine import get_vector_engine
+        engine = get_vector_engine()
+        sop_context = engine.query(transcription) if engine else ""
         
         user_prompt = f"Patient token: {token_number}. Age: {age}. Gender: {gender}. Transcribed complaint: '{transcription}'. Known conditions: {conditions}. \nRelevant Hospital SOP Context: {sop_context}\nGenerate dual JSON for doctor and patient."
         
@@ -93,8 +94,9 @@ class AIEngine:
         }
         """
         # RAG: Retrieve relevant SOP context
-        from vector_engine import vector_engine
-        sop_context = vector_engine.query(transcription)
+        from vector_engine import get_vector_engine
+        engine = get_vector_engine()
+        sop_context = engine.query(transcription) if engine else ""
 
         user_prompt = f"Token: {token}. Age: {age}. Transcription: '{transcription}'. Known conditions: {conditions}. Vitals: {vitals}. \nRelevant Hospital SOP Context: {sop_context}\nGenerate emergency triage JSON."
         

@@ -20,7 +20,6 @@ chromadb
 python-jose[cryptography]
 passlib[bcrypt]
 bcrypt
-pyjwt
 python-multipart
 
 # audio-processing

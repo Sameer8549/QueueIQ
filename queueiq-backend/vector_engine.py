@@ -53,12 +53,24 @@ class VectorEngine:
             print(f"Vector Query Error: {e}")
             return []
 
-# Global instance
-vector_engine = VectorEngine()
+# Global singleton
+_vector_engine = None
+
+def get_vector_engine():
+    global _vector_engine
+    if _vector_engine is None:
+        try:
+            _vector_engine = VectorEngine()
+        except Exception as e:
+            print(f"Vector Engine Lazy Init Error: {e}")
+            return None
+    return _vector_engine
 
 def init_vector_store():
     """Initializes and seeds the vector store. Called on app startup."""
     try:
-        vector_engine.seed_knowledge("./knowledge_base")
+        engine = get_vector_engine()
+        if engine:
+            engine.seed_knowledge("./knowledge_base")
     except Exception as e:
         print(f"Vector Store Initialization Warning: {e}")
